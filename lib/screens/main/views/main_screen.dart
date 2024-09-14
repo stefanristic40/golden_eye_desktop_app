@@ -109,7 +109,7 @@ class MainScreenState extends State<MainScreen> {
                       const SizedBox(height: 100),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, mainScreenRoute);
+                          Navigator.pushNamed(context, loginScreenRoute);
                         },
                         child: const Text('Exit'),
                       ),
