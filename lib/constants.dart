@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-const backendUrl = "https://admin-lagom-zweden.nl/api";
+const backendUrl = "http://127.0.0.1:5000/api";
 // Just for demo
 const productDemoImg1 =
     "https://www.essig-oel.de/media/iopt/catalog/product/cache/ff995f15b6f78e003f8fa5c335ba359a/c/a/cafe_crema_1_1.jpg";
