@@ -153,6 +153,7 @@ class LoginScreenState extends State<LoginScreen> {
                               decoration: const InputDecoration(
                                 labelText: "Password",
                               ),
+                              obscureText: true,
                               onChanged: (value) {
                                 setState(() {
                                   _password = value;
