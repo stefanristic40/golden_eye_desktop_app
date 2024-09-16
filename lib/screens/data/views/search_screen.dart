@@ -19,20 +19,6 @@ class SearchScreen extends StatefulWidget {
 }
 
 class SearchScreenState extends State<SearchScreen> {
-  final _formKey = GlobalKey<FormState>();
-
-  String _search_text = '';
-  DateTime? _date_start;
-  DateTime? _date_end;
-  String _caseId = '';
-  File? thumbnail;
-
-  // selectedData
-  Map<String, dynamic> selectedData = {};
-
-  // Searcehed data list
-  final List<Map<String, dynamic>> _searchedData = [];
-
   final List<String> _incidentTypes = [
     'Fire Raid',
     'IED Attk',
@@ -45,12 +31,27 @@ class SearchScreenState extends State<SearchScreen> {
     'Robberies',
   ];
 
+  DateTime? _date_start;
+  DateTime? _date_end;
+  TextEditingController _caseId = TextEditingController();
+  TextEditingController _search_text = TextEditingController();
+  File? thumbnail;
+  String _selectedIncidentType = '';
+
+  // selectedData
+  Map<String, dynamic> selectedData = {};
+
+  // Searcehed data list
+  final List<Map<String, dynamic>> _searchedData = [];
+
   // Selected incident types
   final List<String> _selectedIncidentTypes = [];
 
   @override
   void initState() {
     super.initState();
+
+    _selectedIncidentType = _incidentTypes.first;
   }
 
   @override
@@ -70,6 +71,34 @@ class SearchScreenState extends State<SearchScreen> {
           'image',
           thumbnail!.path,
         ));
+      }
+    }
+
+    if (search_type == "date") {
+      if (_date_start != null) {
+        request.fields['date_start'] =
+            DateFormat('yyyy-MM-dd').format(_date_start!);
+      }
+
+      if (_date_end != null) {
+        request.fields['date_end'] =
+            DateFormat('yyyy-MM-dd').format(_date_end!);
+      }
+
+      if (_selectedIncidentType.isNotEmpty) {
+        request.fields['incident_type'] = _selectedIncidentType;
+      }
+    }
+
+    if (search_type == "case_id") {
+      if (_caseId.text.isNotEmpty) {
+        request.fields['case_id'] = _caseId.text;
+      }
+    }
+
+    if (search_type == "text") {
+      if (_search_text.text.isNotEmpty) {
+        request.fields['search_text'] = _search_text.text;
       }
     }
 
@@ -159,7 +188,7 @@ class SearchScreenState extends State<SearchScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 40),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -190,17 +219,12 @@ class SearchScreenState extends State<SearchScreen> {
                         width: 200,
                         height: 40,
                         child: TextFormField(
+                          controller: _search_text,
                           decoration: const InputDecoration(
-                            // Placeholder text
                             hintText: 'Search by text',
                             contentPadding: EdgeInsets.symmetric(
                                 vertical: 0, horizontal: 10.0),
                           ),
-                          onChanged: (value) {
-                            setState(() {
-                              _search_text = value;
-                            });
-                          },
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -209,13 +233,14 @@ class SearchScreenState extends State<SearchScreen> {
                         child: ElevatedButton(
                           onPressed: () {
                             // Implement file picker logic here
+                            _saerch('text');
                           },
                           child: const Text('Search'),
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 40),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,6 +322,25 @@ class SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                             const SizedBox(height: 10),
+                            // Dropdown for incident types
+                            _buildRow(
+                              label: 'Incident Type:',
+                              child: DropdownButton<String>(
+                                value: _selectedIncidentType,
+                                items: _incidentTypes
+                                    .map((type) => DropdownMenuItem(
+                                          value: type,
+                                          child: Text(type),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    _selectedIncidentType = value!;
+                                  });
+                                },
+                                dropdownColor: Colors.white,
+                              ),
+                            ),
                             // Search button
                             Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -305,7 +349,7 @@ class SearchScreenState extends State<SearchScreen> {
                                     width: 200,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        // Implement file picker logic here
+                                        _saerch('date');
                                       },
                                       child: const Text('Search'),
                                     ),
@@ -318,14 +362,7 @@ class SearchScreenState extends State<SearchScreen> {
                             _buildRow(
                               label: 'Search Case ID #:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _caseId,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _caseId = value;
-                                  });
-                                },
+                                controller: _caseId,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -342,6 +379,7 @@ class SearchScreenState extends State<SearchScreen> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         // Implement file picker logic here
+                                        _saerch('case_id');
                                       },
                                       child: const Text('Search'),
                                     ),
@@ -350,7 +388,7 @@ class SearchScreenState extends State<SearchScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 50),
+                      const SizedBox(width: 40),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -388,17 +426,6 @@ class SearchScreenState extends State<SearchScreen> {
                                   width: 2,
                                 ),
                               ),
-                              // child: Show Search data's thumbnail
-                              // child: thumbnail != null
-                              //     ? Image.file(
-                              //         thumbnail!,
-                              //         width: 400,
-                              //         height: 400,
-                              //         fit: BoxFit.cover,
-                              //       )
-                              //     : const Center(
-                              //         child: Text('No Image'),
-                              //       ),
                               child: selectedData != null
                                   ? Image.network(
                                       'http://127.0.0.1:5000/images/${selectedData["thumbnail"]}',
