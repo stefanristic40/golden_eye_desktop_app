@@ -20,6 +20,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => const DataEntryScreen(),
       );
+    case searchScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const SearchScreen(),
+      );
     case entryPointScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const EntryPoint(),

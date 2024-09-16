@@ -23,19 +23,31 @@ class DataEntryScreenState extends State<DataEntryScreen> {
   TimeOfDay? _time;
   String _casValue = 'Own';
   String _watchListValue = 'Yes';
-  String _organization = '';
-  String _subOrganization = '';
-  String _name = '';
-  String _comds = '';
-  String _briefDescription = '';
-  String _area = '';
-  String _martyped = '';
-  String _injured = '';
-  String _killed = '';
-  String _latitute = '';
-  String _longitude = '';
-  String _caseId = '';
+  // String _subOrganization = '';
+  // String _name = '';
+  // String _comds = '';
+  // String _briefDescription = '';
+  // String _area = '';
+  // String _martyped = '';
+  // String _injured = '';
+  // String _killed = '';
+  // String _latitute = '';
+  // String _longitude = '';
+  // String _caseId = '';
   File? thumbnail;
+
+  TextEditingController _organization = TextEditingController();
+  TextEditingController _subOrganization = TextEditingController();
+  TextEditingController _name = TextEditingController();
+  TextEditingController _comds = TextEditingController();
+  TextEditingController _briefDescription = TextEditingController();
+  TextEditingController _area = TextEditingController();
+  TextEditingController _martyped = TextEditingController();
+  TextEditingController _injured = TextEditingController();
+  TextEditingController _killed = TextEditingController();
+  TextEditingController _latitute = TextEditingController();
+  TextEditingController _longitude = TextEditingController();
+  TextEditingController _caseId = TextEditingController();
 
   final List<String> _incidentTypes = [
     'Fire Raid',
@@ -70,19 +82,19 @@ class DataEntryScreenState extends State<DataEntryScreen> {
 
     request.fields['date'] = _date.toString();
     request.fields['time'] = _time.toString();
-    request.fields['organization'] = _organization;
-    request.fields['sub_organization'] = _subOrganization;
-    request.fields['name'] = _name;
-    request.fields['comds'] = _comds;
-    request.fields['brief_description'] = _briefDescription;
-    request.fields['area'] = _area;
+    request.fields['organization'] = _organization.text;
+    request.fields['sub_organization'] = _subOrganization.text;
+    request.fields['name'] = _name.text;
+    request.fields['comds'] = _comds.text;
+    request.fields['brief_description'] = _briefDescription.text;
+    request.fields['area'] = _area.text;
     request.fields['cas'] = _casValue;
-    request.fields['martyped'] = _martyped;
-    request.fields['injured'] = _injured;
-    request.fields['killed'] = _killed;
-    request.fields['latitute'] = _latitute;
-    request.fields['longitude'] = _longitude;
-    request.fields['case_id'] = _caseId;
+    request.fields['martyped'] = _martyped.text;
+    request.fields['injured'] = _injured.text;
+    request.fields['killed'] = _killed.text;
+    request.fields['latitute'] = _latitute.text;
+    request.fields['longitude'] = _longitude.text;
+    request.fields['case_id'] = _caseId.text;
     request.fields['watch_list'] = _watchListValue;
     request.fields['incident_types'] = jsonEncode(_selectedIncidentTypes);
 
@@ -107,23 +119,23 @@ class DataEntryScreenState extends State<DataEntryScreen> {
       setState(() {
         _date = null;
         _time = null;
-        _organization = '';
-        _subOrganization = '';
-        _name = '';
-        _comds = '';
-        _briefDescription = '';
-        _area = '';
-        _casValue = 'Own';
-        _martyped = '';
-        _injured = '';
-        _killed = '';
-        _latitute = '';
-        _longitude = '';
-        _caseId = '';
         _watchListValue = 'Yes';
         _selectedIncidentTypes.clear();
         thumbnail = null;
       });
+
+      _organization.clear();
+      _subOrganization.clear();
+      _name.clear();
+      _comds.clear();
+      _briefDescription.clear();
+      _area.clear();
+      _martyped.clear();
+      _injured.clear();
+      _killed.clear();
+      _latitute.clear();
+      _longitude.clear();
+      _caseId.clear();
     } else {
       final responseBody = await response.stream.bytesToString();
       final Map<String, dynamic> body =
@@ -261,14 +273,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Organization:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _organization,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _organization = value;
-                                  });
-                                },
+                                controller: _organization,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -279,14 +284,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Sub Organization:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _subOrganization,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _subOrganization = value;
-                                  });
-                                },
+                                controller: _subOrganization,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -297,14 +295,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Name:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _name,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _name = value;
-                                  });
-                                },
+                                controller: _name,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -315,14 +306,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Comds:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _comds,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _comds = value;
-                                  });
-                                },
+                                controller: _comds,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -333,14 +317,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Brief/Description:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _briefDescription,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _briefDescription = value;
-                                  });
-                                },
+                                controller: _briefDescription,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -450,14 +427,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Area:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _area,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _area = value;
-                                  });
-                                },
+                                controller: _area,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -490,14 +460,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Martyped:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _martyped,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _martyped = value;
-                                  });
-                                },
+                                controller: _martyped,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -508,14 +471,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Injured:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _injured,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _injured = value;
-                                  });
-                                },
+                                controller: _injured,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -526,14 +482,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Killed:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _killed,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _killed = value;
-                                  });
-                                },
+                                controller: _killed,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -544,14 +493,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Latitute:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _latitute,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _latitute = value;
-                                  });
-                                },
+                                controller: _latitute,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -562,14 +504,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Longitude:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _longitude,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _longitude = value;
-                                  });
-                                },
+                                controller: _longitude,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -580,14 +515,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                             _buildRow(
                               label: 'Give Case ID #:',
                               child: TextFormField(
-                                controller: TextEditingController(
-                                  text: _caseId,
-                                ),
-                                onChanged: (value) {
-                                  setState(() {
-                                    _caseId = value;
-                                  });
-                                },
+                                controller: _caseId,
                                 decoration: const InputDecoration(
                                   contentPadding: EdgeInsets.symmetric(
                                       vertical: 0, horizontal: 10.0),
@@ -660,20 +588,19 @@ class DataEntryScreenState extends State<DataEntryScreen> {
               ),
             )),
             Positioned(
-                top: 20,
-                right: 20,
-                // child: Main Menu Button "Menu"
-                child: Container(
-                  child: SizedBox(
-                    width: 100,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, mainScreenRoute);
-                      },
-                      child: const Text('Menu'),
-                    ),
-                  ),
-                ))
+              top: 20,
+              right: 20,
+              // child: Main Menu Button "Menu"
+              child: SizedBox(
+                width: 100,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, mainScreenRoute);
+                  },
+                  child: const Text('Menu'),
+                ),
+              ),
+            )
           ],
         ),
       ),
