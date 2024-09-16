@@ -35,8 +35,10 @@ class SearchScreenState extends State<SearchScreen> {
   DateTime? _date_end;
   TextEditingController _caseId = TextEditingController();
   TextEditingController _search_text = TextEditingController();
-  File? thumbnail;
   String _selectedIncidentType = '';
+  String _searchIncidentType = '';
+
+  File? thumbnail;
 
   // selectedData
   Map<String, dynamic> selectedData = {};
@@ -45,7 +47,6 @@ class SearchScreenState extends State<SearchScreen> {
   final List<Map<String, dynamic>> _searchedData = [];
 
   // Selected incident types
-  final List<String> _selectedIncidentTypes = [];
 
   @override
   void initState() {
@@ -99,6 +100,12 @@ class SearchScreenState extends State<SearchScreen> {
     if (search_type == "text") {
       if (_search_text.text.isNotEmpty) {
         request.fields['search_text'] = _search_text.text;
+      }
+    }
+
+    if (search_type == "incident_type") {
+      if (_searchIncidentType.isNotEmpty) {
+        request.fields['incident_type'] = _searchIncidentType;
       }
     }
 
@@ -486,19 +493,23 @@ class SearchScreenState extends State<SearchScreen> {
                               children: _incidentTypes
                                   .map((type) => Column(children: [
                                         ElevatedButton(
+                                          // If _searchIncidentType is equal to type, change background color
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                _searchIncidentType == type
+                                                    ? const Color(0xFFAB520C)
+                                                    : Colors.white,
+                                          ),
                                           onPressed: () {
                                             setState(() {
-                                              if (_selectedIncidentTypes
-                                                  .contains(type)) {
-                                                _selectedIncidentTypes
-                                                    .remove(type);
-                                              } else {
-                                                _selectedIncidentTypes
-                                                    .add(type);
-                                              }
+                                              _searchIncidentType = type;
                                             });
+
+                                            _saerch('incident_type');
                                           },
-                                          child: Text(type),
+                                          child: Text(type,
+                                              style: const TextStyle(
+                                                  color: Colors.black)),
                                         ),
                                         const SizedBox(height: 10),
                                       ]))
