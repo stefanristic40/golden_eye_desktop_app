@@ -430,15 +430,21 @@ class SearchScreenState extends State<SearchScreen> {
                                   width: 2,
                                 ),
                               ),
-                              child: selectedData != null
+                              child: thumbnail != null
                                   ? Image.network(
-                                      'http://127.0.0.1:5000/images/${selectedData["thumbnail"]}',
+                                      '$backendAssetUrl/images/${selectedData["thumbnail"]}',
                                       width: 400,
                                       height: 400,
                                       fit: BoxFit.cover,
                                     )
-                                  : const Center(
-                                      child: Text('No Image'),
+                                  : const SizedBox(
+                                      width: 400,
+                                      height: 400,
+                                      child: Icon(
+                                        Icons.image,
+                                        size: 100,
+                                        color: Colors.grey,
+                                      ),
                                     ),
                             ),
                             const SizedBox(width: 20),
@@ -796,13 +802,22 @@ class SearchScreenState extends State<SearchScreen> {
                                         ),
                                         TableCell(
                                           child: Center(
-                                            child: Image.network(
-                                              'http://127.0.0.1:5000/images/${data['thumbnail']}',
-                                              width: 100,
-                                              height: 100,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                              child: data['thumbnail'] != null
+                                                  ? Image.network(
+                                                      '$backendAssetUrl/images/${data['thumbnail']}',
+                                                      width: 100,
+                                                      height: 100,
+                                                      fit: BoxFit.cover,
+                                                    )
+                                                  : const SizedBox(
+                                                      width: 100,
+                                                      height: 100,
+                                                      child: Icon(
+                                                        Icons.image,
+                                                        size: 100,
+                                                        color: Colors.grey,
+                                                      ),
+                                                    )),
                                         ),
                                         TableCell(
                                           child: Center(
@@ -910,15 +925,13 @@ class SearchScreenState extends State<SearchScreen> {
                 top: 20,
                 right: 20,
                 // child: Main Menu Button "Menu"
-                child: Container(
-                  child: SizedBox(
-                    width: 100,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, mainScreenRoute);
-                      },
-                      child: const Text('Menu'),
-                    ),
+                child: SizedBox(
+                  width: 100,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, mainScreenRoute);
+                    },
+                    child: const Text('Menu'),
                   ),
                 ))
           ],
