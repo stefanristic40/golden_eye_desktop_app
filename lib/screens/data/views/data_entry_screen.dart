@@ -566,7 +566,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                                     ElevatedButton(
                                       onPressed: () {
                                         Navigator.pushNamed(
-                                            context, mainScreenRoute);
+                                            context, addLowDownScreenRoute);
                                       },
                                       child: const Text('Low Down'),
                                     ),

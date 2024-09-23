@@ -99,14 +99,7 @@ class MainScreenState extends State<MainScreen> {
                         },
                         child: const Text('Search Page'),
                       ),
-                      const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, mainScreenRoute);
-                        },
-                        child: const Text('Low Down'),
-                      ),
-                      const SizedBox(height: 100),
+                      const SizedBox(height: 200),
                       ElevatedButton(
                         onPressed: () {
                           Navigator.pushNamed(context, loginScreenRoute);

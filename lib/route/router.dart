@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_windows_app/entry_point.dart';
 
 import 'screen_export.dart';
 
@@ -27,6 +26,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case entryPointScreenRoute:
       return MaterialPageRoute(
         builder: (context) => const EntryPoint(),
+      );
+    case addLowDownScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) => const AddLowDownScreen(),
       );
     default:
       return MaterialPageRoute(
