@@ -29,7 +29,17 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       );
     case addLowDownScreenRoute:
       return MaterialPageRoute(
-        builder: (context) => const AddLowDownScreen(),
+        builder: (context) {
+          final String? dataEntryId = settings.arguments as String?;
+          return AddLowDownScreen(dataEntryId: dataEntryId);
+        },
+      );
+    case viewLowDownScreenRoute:
+      return MaterialPageRoute(
+        builder: (context) {
+          final String dataEntryId = settings.arguments as String;
+          return ViewLowDownScreen(dataEntryId: dataEntryId);
+        },
       );
     default:
       return MaterialPageRoute(

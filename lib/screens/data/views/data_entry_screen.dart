@@ -23,18 +23,9 @@ class DataEntryScreenState extends State<DataEntryScreen> {
   TimeOfDay? _time;
   String _casValue = 'Own';
   String _watchListValue = 'Yes';
-  // String _subOrganization = '';
-  // String _name = '';
-  // String _comds = '';
-  // String _briefDescription = '';
-  // String _area = '';
-  // String _martyped = '';
-  // String _injured = '';
-  // String _killed = '';
-  // String _latitute = '';
-  // String _longitude = '';
-  // String _caseId = '';
   File? thumbnail;
+
+  String? _dataEntryId;
 
   TextEditingController _organization = TextEditingController();
   TextEditingController _subOrganization = TextEditingController();
@@ -115,6 +106,9 @@ class DataEntryScreenState extends State<DataEntryScreen> {
         ),
       );
 
+      final responseBody = await response.stream.bytesToString();
+      print(responseBody);
+
       // Clear all the fields
       setState(() {
         _date = null;
@@ -122,6 +116,8 @@ class DataEntryScreenState extends State<DataEntryScreen> {
         _watchListValue = 'Yes';
         _selectedIncidentTypes.clear();
         thumbnail = null;
+
+        _dataEntryId = json.decode(responseBody)['_id'];
       });
 
       _organization.clear();
@@ -551,31 +547,28 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () {
-                                        // Implement file picker logic here
-                                      },
-                                      child: const Text('Import GOE .kmz'),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        // Implement file picker logic here
-                                      },
-                                      child: const Text('Explore Google Earth'),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, addLowDownScreenRoute);
-                                      },
-                                      child: const Text('Low Down'),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    ElevatedButton(
-                                      onPressed: () {
                                         _saveData();
                                       },
                                       child: const Text('Save Data'),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    ElevatedButton(
+                                      // Disable button if _dataEntryId is null
+                                      onPressed: _dataEntryId == null
+                                          ? null
+                                          : () {
+                                              Navigator.pushNamed(context,
+                                                  addLowDownScreenRoute,
+                                                  arguments: _dataEntryId);
+                                            },
+                                      // Change the background color of button if _dataEntryId is null
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: _dataEntryId == null
+                                            ? const Color.fromARGB(
+                                                255, 39, 39, 39)
+                                            : const Color(0xFFAB520C),
+                                      ),
+                                      child: const Text('Low Down'),
                                     ),
                                   ],
                                 )),

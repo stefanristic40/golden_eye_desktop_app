@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart';
 
 import 'package:my_windows_app/constants.dart';
 import 'package:my_windows_app/route/route_constants.dart';
 
-class AddLowDownScreen extends StatefulWidget {
+class ViewLowDownScreen extends StatefulWidget {
   final String? dataEntryId;
 
-  const AddLowDownScreen({this.dataEntryId, super.key});
+  const ViewLowDownScreen({this.dataEntryId, super.key});
 
   @override
-  AddLowDownScreenState createState() => AddLowDownScreenState();
+  ViewLowDownScreenState createState() => ViewLowDownScreenState();
 }
 
-class AddLowDownScreenState extends State<AddLowDownScreen> {
+class ViewLowDownScreenState extends State<ViewLowDownScreen> {
   File? thumbnail;
-
-  String? dataEntryId = '';
 
   // Name, Alias, Father Name, Mother Name, Religion, Sect/Sub Sect, Caste, SUb Caste, Nationality, CNIC, Date of Birth, Age, Civ Edn, Complexion, Contact Nos
   TextEditingController _name = TextEditingController();
@@ -99,7 +95,7 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
   void initState() {
     super.initState();
 
-    dataEntryId = widget.dataEntryId;
+    _fetchLowData();
   }
 
   @override
@@ -107,176 +103,97 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
     super.dispose();
   }
 
-  void _saveData() async {
-    final request = http.MultipartRequest(
-      'POST',
-      Uri.parse('$backendUrl/low'),
-    );
-
-    request.fields['entry_id'] = dataEntryId!;
-
-    request.fields['name'] = _name.text;
-    request.fields['alias'] = _alias.text;
-    request.fields['father_name'] = _fatherName.text;
-    request.fields['mother_name'] = _motherName.text;
-    request.fields['religion'] = _religion.text;
-    request.fields['sect_sub_sect'] = _sectSubSect.text;
-    request.fields['caste'] = _caste.text;
-    request.fields['sub_caste'] = _subCaste.text;
-    request.fields['nationality'] = _nationality.text;
-    request.fields['cnic'] = _cnic.text;
-    request.fields['dob'] = _dob.text;
-    request.fields['age'] = _age.text;
-    request.fields['civ_edn'] = _civEdn.text;
-    request.fields['complexion'] = _complexion.text;
-    request.fields['contact_nos'] = _contactNos.text;
-
-    request.fields['facebook'] = _facebook.text;
-    request.fields['twitter'] = _twitter.text;
-    request.fields['tiktok'] = _tikTok.text;
-    request.fields['email'] = _email.text;
-
-    request.fields['passport_no'] = _passportNo.text;
-    request.fields['bank_acct_details'] = _bankAcctDetails.text;
-    request.fields['languages'] = _languages.text;
-    request.fields['temp_address'] = _tempAddress.text;
-    request.fields['perm_address'] = _permAddress.text;
-    request.fields['detail_of_visit_foregin_countries'] =
-        _detailOfVisitForeginCountries.text;
-    request.fields['areas_of_influence'] = _areasOfInfluence.text;
-    request.fields['active_since'] = _activeSince.text;
-    request.fields['likely_loc'] = _likelyLoc.text;
-    request.fields['tier'] = _tier.text;
-    request.fields['affl_with_ts_gp'] = _afflWithTsGp.text;
-
-    request.fields['political_affl'] = _politicalAffl.text;
-    request.fields['religious_affl'] = _religiousAffl.text;
-    request.fields['occupation'] = _occupation.text;
-    request.fields['source_of_income'] = _sourceOfIncome.text;
-    request.fields['property_details'] = _propertyDetails.text;
-    request.fields['marital_status'] = _maritalStatus.text;
-    request.fields['detail_of_children'] = _detailOfChildren.text;
-
-    request.fields['brothers'] = _brothers.text;
-    request.fields['sisters'] = _sisters.text;
-    request.fields['uncles'] = _uncles.text;
-    request.fields['aunts'] = _aunts.text;
-    request.fields['cousins'] = _cousins.text;
-
-    request.fields['father_in_law'] = _fatherInLaw.text;
-    request.fields['mother_in_law'] = _motherInLaw.text;
-    request.fields['brother_in_law'] = _brotherInLaw.text;
-    request.fields['sister_in_law'] = _sisterInLaw.text;
-
-    request.fields['criminal_activities'] = _criminalActivities.text;
-    request.fields['extortion_activities'] = _extortionActivities.text;
-    request.fields['attitude_towards_govt'] = _attitudeTowardsGovt.text;
-    request.fields['attitude_towards_state'] = _attitudeTowardsState.text;
-    request.fields['attitude_towards_sfs'] = _attitudeTowardsSFs.text;
-    request.fields['gen_habbits'] = _genHabbits.text;
-    request.fields['reputation_among_locals'] = _reputationAmongLocals.text;
-    request.fields['fir_status'] = _firStatus.text;
-
-    request.fields['gen_remarks'] = _genRemarks.text;
-
-    if (thumbnail != null) {
-      request.files.add(await http.MultipartFile.fromPath(
-        'thumbnail',
-        thumbnail!.path,
-      ));
-    }
-
-    final response = await request.send();
+  void _fetchLowData() async {
+    final response =
+        await http.get(Uri.parse('$backendUrl/low/${widget.dataEntryId}'));
 
     if (response.statusCode == 200) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Low Down data saved successfully'),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      // Clear all the fields
-      setState(() {
-        thumbnail = null;
-      });
-
-      _name.clear();
-      _alias.clear();
-      _fatherName.clear();
-      _motherName.clear();
-      _religion.clear();
-      _sectSubSect.clear();
-      _caste.clear();
-      _subCaste.clear();
-      _nationality.clear();
-      _cnic.clear();
-      _dob.clear();
-      _age.clear();
-      _civEdn.clear();
-      _complexion.clear();
-      _contactNos.clear();
-
-      _facebook.clear();
-      _twitter.clear();
-      _tikTok.clear();
-      _email.clear();
-
-      _passportNo.clear();
-      _bankAcctDetails.clear();
-      _languages.clear();
-      _tempAddress.clear();
-      _permAddress.clear();
-      _detailOfVisitForeginCountries.clear();
-      _areasOfInfluence.clear();
-      _activeSince.clear();
-      _likelyLoc.clear();
-      _tier.clear();
-      _afflWithTsGp.clear();
-
-      _politicalAffl.clear();
-      _religiousAffl.clear();
-      _occupation.clear();
-      _sourceOfIncome.clear();
-      _propertyDetails.clear();
-      _maritalStatus.clear();
-      _detailOfChildren.clear();
-
-      _brothers.clear();
-      _sisters.clear();
-      _uncles.clear();
-      _aunts.clear();
-      _cousins.clear();
-
-      _fatherInLaw.clear();
-      _motherInLaw.clear();
-      _brotherInLaw.clear();
-      _sisterInLaw.clear();
-
-      _criminalActivities.clear();
-      _extortionActivities.clear();
-      _attitudeTowardsGovt.clear();
-
-      _attitudeTowardsState.clear();
-      _attitudeTowardsSFs.clear();
-      _genHabbits.clear();
-      _reputationAmongLocals.clear();
-      _firStatus.clear();
-
-      _genRemarks.clear();
-    } else {
-      final responseBody = await response.stream.bytesToString();
       final Map<String, dynamic> body =
-          json.decode(responseBody) as Map<String, dynamic>;
-      final List<String> errors =
-          body.entries.map((entry) => '${entry.value}').toList();
+          json.decode(response.body) as Map<String, dynamic>;
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to add product: ${errors.join(', ')}'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      _name.text = body['name'] as String;
+      _alias.text = body['alias'] as String;
+      _fatherName.text = body['father_name'] as String;
+      _motherName.text = body['mother_name'] as String;
+      _religion.text = body['religion'] as String;
+      _sectSubSect.text = body['sect_sub_sect'] as String;
+      _caste.text = body['caste'] as String;
+      _subCaste.text = body['sub_caste'] as String;
+      _nationality.text = body['nationality'] as String;
+      _cnic.text = body['cnic'] as String;
+      _dob.text = body['dob'] as String;
+      _age.text = body['age'] as String;
+      _civEdn.text = body['civ_edn'] as String;
+      _complexion.text = body['complexion'] as String;
+      _contactNos.text = body['contact_nos'] as String;
+
+      _facebook.text = body['facebook'] as String;
+      _twitter.text = body['twitter'] as String;
+      _tikTok.text = body['tiktok'] as String;
+      _email.text = body['email'] as String;
+
+      _passportNo.text = body['passport_no'] as String;
+      _bankAcctDetails.text = body['bank_acct_details'] as String;
+      _languages.text = body['languages'] as String;
+      _tempAddress.text = body['temp_address'] as String;
+      _permAddress.text = body['perm_address'] as String;
+      _detailOfVisitForeginCountries.text =
+          body['detail_of_visit_foregin_countries'] as String;
+      _areasOfInfluence.text = body['areas_of_influence'] as String;
+      _activeSince.text = body['active_since'] as String;
+      _likelyLoc.text = body['likely_loc'] as String;
+      _tier.text = body['tier'] as String;
+      _afflWithTsGp.text = body['affl_with_ts_gp'] as String;
+
+      _politicalAffl.text = body['political_affl'] as String;
+      _religiousAffl.text = body['religious_affl'] as String;
+      _occupation.text = body['occupation'] as String;
+      _sourceOfIncome.text = body['source_of_income'] as String;
+      _propertyDetails.text = body['property_details'] as String;
+      _maritalStatus.text = body['marital_status'] as String;
+      _detailOfChildren.text = body['detail_of_children'] as String;
+
+      _brothers.text = body['brothers'] as String;
+      _sisters.text = body['sisters'] as String;
+      _uncles.text = body['uncles'] as String;
+      _aunts.text = body['aunts'] as String;
+      _cousins.text = body['cousins'] as String;
+
+      _fatherInLaw.text = body['father_in_law'] as String;
+      _motherInLaw.text = body['mother_in_law'] as String;
+      _brotherInLaw.text = body['brother_in_law'] as String;
+      _sisterInLaw.text = body['sister_in_law'] as String;
+
+      _criminalActivities.text = body['criminal_activities'] as String;
+      _extortionActivities.text = body['extortion_activities'] as String;
+      _attitudeTowardsGovt.text = body['attitude_towards_govt'] as String;
+      _attitudeTowardsState.text = body['attitude_towards_state'] as String;
+      _attitudeTowardsSFs.text = body['attitude_towards_sfs'] as String;
+      _genHabbits.text = body['gen_habbits'] as String;
+      _reputationAmongLocals.text = body['reputation_among_locals'] as String;
+      _firStatus.text = body['fir_status'] as String;
+
+      _genRemarks.text = body['gen_remarks'] as String;
+
+      setState(() {
+        if (body['thumbnail'] != null) {
+          thumbnail = File(body['thumbnail'] as String);
+        }
+      });
+    } else {
+      final responseBody = response.body;
+      print(responseBody);
+      // final Map<String, dynamic> body =
+      //     json.decode(responseBody) as Map<String, dynamic>;
+      // final List<String> errors =
+      //     body.entries.map((entry) => '${entry.value}').toList();
+
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text('Failed to fetch product: ${errors.join(', ')}'),
+      //     backgroundColor: Colors.red,
+      //   ),
+      // );
     }
   }
 
@@ -284,18 +201,6 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    double textWidth = 200;
-
-    Future<void> pickImage() async {
-      final ImagePicker picker = ImagePicker();
-      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-      if (image != null) {
-        setState(() {
-          thumbnail = File(image.path);
-        });
-      }
-    }
 
     return Scaffold(
       body: SafeArea(
@@ -578,22 +483,10 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
                                             ),
                                           ),
                                     const SizedBox(height: 10),
-                                    // Pick Image Button
-                                    ElevatedButton(
-                                      onPressed: pickImage,
-                                      child: const Text('Pick Image'),
-                                    ),
                                   ],
                                 ),
                               ),
                               const SizedBox(height: 50),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _saveData();
-                                },
-                                child: const Text('Save Data'),
-                              ),
-                              const SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
                                   // Implement file picker logic here
@@ -606,6 +499,13 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
                                   Navigator.pushNamed(context, mainScreenRoute);
                                 },
                                 child: const Text('Export as PDF'),
+                              ),
+                              const SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, mainScreenRoute);
+                                },
+                                child: const Text('Exit'),
                               ),
                             ],
                           ))),

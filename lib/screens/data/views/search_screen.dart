@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'dart:io';
-import 'package:path/path.dart' as path;
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -891,7 +888,9 @@ class SearchScreenState extends State<SearchScreen> {
                                           child: Center(
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                // Implement file picker logic here
+                                                Navigator.pushNamed(context,
+                                                    viewLowDownScreenRoute,
+                                                    arguments: data['_id']);
                                               },
                                               child: const Text('Low Down'),
                                             ),
