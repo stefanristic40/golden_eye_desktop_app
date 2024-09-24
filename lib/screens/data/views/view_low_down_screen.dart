@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 import 'package:my_windows_app/constants.dart';
 import 'package:my_windows_app/route/route_constants.dart';
@@ -17,7 +20,7 @@ class ViewLowDownScreen extends StatefulWidget {
 }
 
 class ViewLowDownScreenState extends State<ViewLowDownScreen> {
-  File? thumbnail;
+  String? thumbnail;
 
   // Name, Alias, Father Name, Mother Name, Religion, Sect/Sub Sect, Caste, SUb Caste, Nationality, CNIC, Date of Birth, Age, Civ Edn, Complexion, Contact Nos
   TextEditingController _name = TextEditingController();
@@ -177,7 +180,7 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
 
       setState(() {
         if (body['thumbnail'] != null) {
-          thumbnail = File(body['thumbnail'] as String);
+          thumbnail = body['thumbnail'] as String;
         }
       });
     } else {
@@ -196,6 +199,147 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
       // );
     }
   }
+
+  void _exportAsPDF() async {
+    final pdf = pw.Document();
+
+    // Fetch the thumbnail image data
+    Uint8List? imageData;
+    if (thumbnail != null) {
+      final response =
+          await http.get(Uri.parse('$backendAssetUrl/images/$thumbnail'));
+      if (response.statusCode == 200) {
+        imageData = response.bodyBytes;
+      }
+    }
+
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.ListView(children: [
+            pw.Text(
+              'Low Down',
+              style: pw.TextStyle(
+                fontSize: 32,
+                fontWeight: pw.FontWeight.bold,
+                color: const PdfColor.fromInt(0xFFFFD966),
+              ),
+            ),
+            if (imageData != null) ...[
+              pw.SizedBox(height: 20),
+              pw.Image(
+                pw.MemoryImage(imageData),
+                width: 200,
+                height: 200,
+              ),
+            ],
+            pw.SizedBox(height: 20),
+            pw.Expanded(
+              child: pw.Row(children: [
+                pw.Expanded(
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      // Text Inputs : Name, Alias, Father Name, Mother Name, Religion, Sect/Sub Sect, Caste, SUb Caste, National
+                      pw.Text('Name: ${_name.text}',
+                          style: const pw.TextStyle(
+                              color: PdfColor.fromInt(0xFF000000))),
+                      pw.Text('Alias: ${_alias.text}'),
+                      pw.Text('Father Name: ${_fatherName.text}'),
+                      pw.Text('Mother Name: ${_motherName.text}'),
+                      pw.Text('Religion: ${_religion.text}'),
+                      pw.Text('Sect/Sub Sect: ${_sectSubSect.text}'),
+                      pw.Text('Caste: ${_caste.text}'),
+                      pw.Text('Sub Caste: ${_subCaste.text}'),
+                      pw.SizedBox(height: 10),
+
+                      // Text Inputs: Passport No, Bank Acct Details, Languages, Temp Address, Perm Address, Detail of Visit foregin countries, Areas of Influence, Active Since, Likely Loc, Tier, Affl with Ts Gp
+                      pw.Text('Passport No: ${_passportNo.text}'),
+                      pw.Text('Bank Acct Details: ${_bankAcctDetails.text}'),
+                      pw.Text('Languages: ${_languages.text}'),
+                      pw.Text('Temp Address: ${_tempAddress.text}'),
+                      pw.Text('Perm Address: ${_permAddress.text}'),
+                      pw.Text(
+                          'Detail of Visit foregin countries: ${_detailOfVisitForeginCountries.text}'),
+                      pw.Text('Areas of Influence: ${_areasOfInfluence.text}'),
+                      pw.Text('Active Since: ${_activeSince.text}'),
+                      pw.Text('Likely Loc: ${_likelyLoc.text}'),
+                      pw.Text('Tier: ${_tier.text}'),
+                      pw.Text('Affl with Ts Gp: ${_afflWithTsGp.text}'),
+                      pw.SizedBox(height: 10),
+
+                      // Text Inputs: Political Affl, Religious Affl, Occupation, Mother Name, Suurce of Income, Property Details, Marital Status, Detail of Children
+                      pw.Text('Political Affl: ${_politicalAffl.text}'),
+                      pw.Text('Religious Affl: ${_religiousAffl.text}'),
+                      pw.Text('Occupation: ${_occupation.text}'),
+                      pw.Text('Mother Name: ${_motherName.text}'),
+                      pw.Text('Source of Income: ${_sourceOfIncome.text}'),
+                      pw.Text('Property Details: ${_propertyDetails.text}'),
+                      pw.Text('Marital Status: ${_maritalStatus.text}'),
+                      pw.Text('Detail of Children: ${_detailOfChildren.text}'),
+                    ],
+                  ),
+                ),
+                pw.Expanded(
+                    child: pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        children: [
+                      // Label Family Detail (Own) i.2 Name, Relation, Age, Profession, Address
+                      pw.Text('Brothers: ${_brothers.text}'),
+                      pw.Text('Sisters: ${_sisters.text}'),
+                      pw.Text('Uncles: ${_uncles.text}'),
+                      pw.Text('Aunts: ${_aunts.text}'),
+                      pw.Text('Cousins: ${_cousins.text}'),
+                      pw.SizedBox(height: 10),
+
+                      // Label: In Laws Detail (i.2 Name, Relation, Age, Profession, Address)
+                      pw.Text('Father in Law: ${_fatherInLaw.text}'),
+                      pw.Text('Mother in Law: ${_motherInLaw.text}'),
+                      pw.Text('Brother in Law: ${_brotherInLaw.text}'),
+                      pw.Text('Sister in Law: ${_sisterInLaw.text}'),
+                      pw.SizedBox(height: 10),
+
+                      // Text Inputs: Criminal Activities, Extortion Activities, Attitude towards Govt, Attitude towards State, Attitude towards SFs, Gen Habbits, Reputation among locals, FIR Status
+                      pw.Text(
+                          'Criminal Activities: ${_criminalActivities.text}'),
+                      pw.Text(
+                          'Extortion Activities: ${_extortionActivities.text}'),
+                      pw.Text(
+                          'Attitude towards Govt: ${_attitudeTowardsGovt.text}'),
+                      pw.Text(
+                          'Attitude towards State: ${_attitudeTowardsState.text}'),
+                      pw.Text(
+                          'Attitude towards SFs: ${_attitudeTowardsSFs.text}'),
+                      pw.Text('Gen Habbits: ${_genHabbits.text}'),
+                      pw.Text(
+                          'Reputation among locals: ${_reputationAmongLocals.text}'),
+                      pw.Text('FIR Status: ${_firStatus.text}'),
+                      pw.SizedBox(height: 10),
+
+                      // Gen Remarks
+                      pw.Text('Gen Remarks: ${_genRemarks.text}'),
+                    ]))
+              ]),
+            ),
+            pw.SizedBox(width: 50),
+          ]);
+        },
+      ),
+    );
+
+    // await Printing.layoutPdf(
+    //   onLayout: (PdfPageFormat format) async => pdf.save(),
+    // );
+
+    // Save the PDF after the page has been added.
+    final bytes = await pdf.save();
+
+    // Now use the 'bytes' to print using Printing.layoutPdf
+    await Printing.layoutPdf(onLayout: (_) => bytes);
+  }
+
+  void _exportAsDoc() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -467,8 +611,8 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
                                     const SizedBox(height: 10),
                                     // Thumbnail Image
                                     thumbnail != null
-                                        ? Image.file(
-                                            thumbnail!,
+                                        ? Image.network(
+                                            '$backendAssetUrl/images/$thumbnail',
                                             width: 200,
                                             height: 200,
                                             fit: BoxFit.cover,
@@ -489,14 +633,14 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
                               const SizedBox(height: 50),
                               ElevatedButton(
                                 onPressed: () {
-                                  // Implement file picker logic here
+                                  _exportAsDoc();
                                 },
                                 child: const Text('Export as DOC'),
                               ),
                               const SizedBox(height: 10),
                               ElevatedButton(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, mainScreenRoute);
+                                  _exportAsPDF();
                                 },
                                 child: const Text('Export as PDF'),
                               ),

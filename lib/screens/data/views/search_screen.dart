@@ -8,6 +8,14 @@ import 'package:intl/intl.dart';
 import 'package:my_windows_app/constants.dart';
 import 'package:my_windows_app/route/route_constants.dart';
 
+// Function to parse TimeOfDay from string
+TimeOfDay parseTimeOfDay(String tod) {
+  final time = tod.substring(10, 15); // Extract "07:59"
+  final hour = int.parse(time.split(":")[0]);
+  final minute = int.parse(time.split(":")[1]);
+  return TimeOfDay(hour: hour, minute: minute);
+}
+
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
 
@@ -35,7 +43,7 @@ class SearchScreenState extends State<SearchScreen> {
   String _selectedIncidentType = '';
   String _searchIncidentType = '';
 
-  File? thumbnail;
+  File? selectedImage;
 
   // selectedData
   Map<String, dynamic> selectedData = {};
@@ -64,10 +72,10 @@ class SearchScreenState extends State<SearchScreen> {
     );
 
     if (search_type == "image") {
-      if (thumbnail != null) {
+      if (selectedImage != null) {
         request.files.add(await http.MultipartFile.fromPath(
           'image',
-          thumbnail!.path,
+          selectedImage!.path,
         ));
       }
     }
@@ -121,6 +129,8 @@ class SearchScreenState extends State<SearchScreen> {
         _searchedData.addAll(data);
         if (_searchedData.isNotEmpty) {
           selectedData = _searchedData[0];
+        } else {
+          selectedData = {};
         }
       });
     } else {
@@ -150,7 +160,7 @@ class SearchScreenState extends State<SearchScreen> {
 
       if (image != null) {
         setState(() {
-          thumbnail = File(image.path);
+          selectedImage = File(image.path);
         });
       }
     }
@@ -430,7 +440,7 @@ class SearchScreenState extends State<SearchScreen> {
                                   width: 2,
                                 ),
                               ),
-                              child: thumbnail != null
+                              child: selectedData["thumbnail"] != null
                                   ? Image.network(
                                       '$backendAssetUrl/images/${selectedData["thumbnail"]}',
                                       width: 400,
@@ -723,7 +733,8 @@ class SearchScreenState extends State<SearchScreen> {
                                         TableCell(
                                           child: Center(
                                             child: Text(
-                                              data['date'],
+                                              DateFormat('yyyy-MM-dd').format(
+                                                  DateTime.parse(data['date'])),
                                               style: const TextStyle(
                                                 color: Colors.black,
                                               ),
@@ -733,7 +744,17 @@ class SearchScreenState extends State<SearchScreen> {
                                         TableCell(
                                           child: Center(
                                             child: Text(
-                                              data['time'],
+                                              DateFormat('HH:mm').format(
+                                                DateTime(
+                                                  0,
+                                                  0,
+                                                  0,
+                                                  parseTimeOfDay(data['time'])
+                                                      .hour,
+                                                  parseTimeOfDay(data['time'])
+                                                      .minute,
+                                                ),
+                                              ),
                                               style: const TextStyle(
                                                 color: Colors.black,
                                               ),
@@ -805,16 +826,16 @@ class SearchScreenState extends State<SearchScreen> {
                                               child: data['thumbnail'] != null
                                                   ? Image.network(
                                                       '$backendAssetUrl/images/${data['thumbnail']}',
-                                                      width: 100,
-                                                      height: 100,
+                                                      width: 60,
+                                                      height: 60,
                                                       fit: BoxFit.cover,
                                                     )
                                                   : const SizedBox(
-                                                      width: 100,
-                                                      height: 100,
+                                                      width: 60,
+                                                      height: 60,
                                                       child: Icon(
                                                         Icons.image,
-                                                        size: 100,
+                                                        size: 60,
                                                         color: Colors.grey,
                                                       ),
                                                     )),
@@ -832,7 +853,7 @@ class SearchScreenState extends State<SearchScreen> {
                                         TableCell(
                                           child: Center(
                                             child: Text(
-                                              data['incident_types'].join(', '),
+                                              data['incident_types'].join('\n'),
                                               style: const TextStyle(
                                                 color: Colors.black,
                                               ),
