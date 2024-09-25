@@ -1,15 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:typed_data';
+// import 'dart:typed_data';
 
-import 'package:pdf/pdf.dart';
-
-import 'package:pdf/widgets.dart' as pw;
-import 'package:printing/printing.dart';
+// import 'package:pdf/pdf.dart';
+// import 'package:pdf/widgets.dart' as pw;
+// import 'package:printing/printing.dart';
 
 import 'package:my_windows_app/constants.dart';
 import 'package:my_windows_app/route/route_constants.dart';
+import 'package:docx_template/docx_template.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class ViewLowDownScreen extends StatefulWidget {
   final String? dataEntryId;
@@ -24,76 +28,76 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
   String? thumbnail;
 
   // Name, Alias, Father Name, Mother Name, Religion, Sect/Sub Sect, Caste, SUb Caste, Nationality, CNIC, Date of Birth, Age, Civ Edn, Complexion, Contact Nos
-  TextEditingController _name = TextEditingController();
-  TextEditingController _alias = TextEditingController();
-  TextEditingController _fatherName = TextEditingController();
-  TextEditingController _motherName = TextEditingController();
-  TextEditingController _religion = TextEditingController();
-  TextEditingController _sectSubSect = TextEditingController();
-  TextEditingController _caste = TextEditingController();
-  TextEditingController _subCaste = TextEditingController();
-  TextEditingController _nationality = TextEditingController();
-  TextEditingController _cnic = TextEditingController();
-  TextEditingController _dob = TextEditingController();
-  TextEditingController _age = TextEditingController();
-  TextEditingController _civEdn = TextEditingController();
-  TextEditingController _complexion = TextEditingController();
-  TextEditingController _contactNos = TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _alias = TextEditingController();
+  final TextEditingController _fatherName = TextEditingController();
+  final TextEditingController _motherName = TextEditingController();
+  final TextEditingController _religion = TextEditingController();
+  final TextEditingController _sectSubSect = TextEditingController();
+  final TextEditingController _caste = TextEditingController();
+  final TextEditingController _subCaste = TextEditingController();
+  final TextEditingController _nationality = TextEditingController();
+  final TextEditingController _cnic = TextEditingController();
+  final TextEditingController _dob = TextEditingController();
+  final TextEditingController _age = TextEditingController();
+  final TextEditingController _civEdn = TextEditingController();
+  final TextEditingController _complexion = TextEditingController();
+  final TextEditingController _contactNos = TextEditingController();
 
   // Social Media Details
-  TextEditingController _facebook = TextEditingController();
-  TextEditingController _twitter = TextEditingController();
-  TextEditingController _tikTok = TextEditingController();
-  TextEditingController _email = TextEditingController();
+  final TextEditingController _facebook = TextEditingController();
+  final TextEditingController _twitter = TextEditingController();
+  final TextEditingController _tikTok = TextEditingController();
+  final TextEditingController _email = TextEditingController();
 
   // Text Inputs: Passport No, Bank Acct Details, Languages, Temp Address, Perm Address, Detail of Visit foregin countries, Areas of Influence, Active Since, Likely Loc, Tier, Affl with Ts Gp
-  TextEditingController _passportNo = TextEditingController();
-  TextEditingController _bankAcctDetails = TextEditingController();
-  TextEditingController _languages = TextEditingController();
-  TextEditingController _tempAddress = TextEditingController();
-  TextEditingController _permAddress = TextEditingController();
-  TextEditingController _detailOfVisitForeginCountries =
+  final TextEditingController _passportNo = TextEditingController();
+  final TextEditingController _bankAcctDetails = TextEditingController();
+  final TextEditingController _languages = TextEditingController();
+  final TextEditingController _tempAddress = TextEditingController();
+  final TextEditingController _permAddress = TextEditingController();
+  final TextEditingController _detailOfVisitForeginCountries =
       TextEditingController();
-  TextEditingController _areasOfInfluence = TextEditingController();
-  TextEditingController _activeSince = TextEditingController();
-  TextEditingController _likelyLoc = TextEditingController();
-  TextEditingController _tier = TextEditingController();
-  TextEditingController _afflWithTsGp = TextEditingController();
+  final TextEditingController _areasOfInfluence = TextEditingController();
+  final TextEditingController _activeSince = TextEditingController();
+  final TextEditingController _likelyLoc = TextEditingController();
+  final TextEditingController _tier = TextEditingController();
+  final TextEditingController _afflWithTsGp = TextEditingController();
 
   // Text Inputs: Political Affl, Religious Affl, Occupation, Mother Name, Suurce of Income, Property Details, Marital Status, Detail of Children
-  TextEditingController _politicalAffl = TextEditingController();
-  TextEditingController _religiousAffl = TextEditingController();
-  TextEditingController _occupation = TextEditingController();
-  TextEditingController _sourceOfIncome = TextEditingController();
-  TextEditingController _propertyDetails = TextEditingController();
-  TextEditingController _maritalStatus = TextEditingController();
-  TextEditingController _detailOfChildren = TextEditingController();
+  final TextEditingController _politicalAffl = TextEditingController();
+  final TextEditingController _religiousAffl = TextEditingController();
+  final TextEditingController _occupation = TextEditingController();
+  final TextEditingController _sourceOfIncome = TextEditingController();
+  final TextEditingController _propertyDetails = TextEditingController();
+  final TextEditingController _maritalStatus = TextEditingController();
+  final TextEditingController _detailOfChildren = TextEditingController();
 
   // Label Family Detail (Own) i.2 Name, Relation, Age, Profession, Address
-  TextEditingController _brothers = TextEditingController();
-  TextEditingController _sisters = TextEditingController();
-  TextEditingController _uncles = TextEditingController();
-  TextEditingController _aunts = TextEditingController();
-  TextEditingController _cousins = TextEditingController();
+  final TextEditingController _brothers = TextEditingController();
+  final TextEditingController _sisters = TextEditingController();
+  final TextEditingController _uncles = TextEditingController();
+  final TextEditingController _aunts = TextEditingController();
+  final TextEditingController _cousins = TextEditingController();
 
   // Label: In Laws Detail (i.2 Name, Relation, Age, Profession, Address)
-  TextEditingController _fatherInLaw = TextEditingController();
-  TextEditingController _motherInLaw = TextEditingController();
-  TextEditingController _brotherInLaw = TextEditingController();
-  TextEditingController _sisterInLaw = TextEditingController();
+  final TextEditingController _fatherInLaw = TextEditingController();
+  final TextEditingController _motherInLaw = TextEditingController();
+  final TextEditingController _brotherInLaw = TextEditingController();
+  final TextEditingController _sisterInLaw = TextEditingController();
 
   // Text Inputs: Criminal Activities, Extortion Activities, Attitude towards Govt, Attitude towards State, Attitude towards SFs, Gen Habbits, Reputation among locals, FIR Status
-  TextEditingController _criminalActivities = TextEditingController();
-  TextEditingController _extortionActivities = TextEditingController();
-  TextEditingController _attitudeTowardsGovt = TextEditingController();
-  TextEditingController _attitudeTowardsState = TextEditingController();
-  TextEditingController _attitudeTowardsSFs = TextEditingController();
-  TextEditingController _genHabbits = TextEditingController();
-  TextEditingController _reputationAmongLocals = TextEditingController();
-  TextEditingController _firStatus = TextEditingController();
+  final TextEditingController _criminalActivities = TextEditingController();
+  final TextEditingController _extortionActivities = TextEditingController();
+  final TextEditingController _attitudeTowardsGovt = TextEditingController();
+  final TextEditingController _attitudeTowardsState = TextEditingController();
+  final TextEditingController _attitudeTowardsSFs = TextEditingController();
+  final TextEditingController _genHabbits = TextEditingController();
+  final TextEditingController _reputationAmongLocals = TextEditingController();
+  final TextEditingController _firStatus = TextEditingController();
 
   // Gen Remarks
-  TextEditingController _genRemarks = TextEditingController();
+  final TextEditingController _genRemarks = TextEditingController();
 
   @override
   void initState() {
@@ -201,146 +205,180 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
     }
   }
 
-  void _exportAsPDF() async {
-    final pdf = pw.Document();
+  void _exportAsDoc() async {
+    final f = File("assets/docx/template.docx");
+    final docx = await DocxTemplate.fromBytes(await f.readAsBytes());
 
-    // Fetch the thumbnail image data
-    Uint8List? imageData;
-    if (thumbnail != null) {
-      final response =
-          await http.get(Uri.parse('$backendAssetUrl/images/$thumbnail'));
-      if (response.statusCode == 200) {
-        imageData = response.bodyBytes;
+    // Update image with onlien image
+    final data =
+        await http.get(Uri.parse('$backendAssetUrl/images/$thumbnail'));
+    final bytes = data.bodyBytes;
+
+    Content c = Content();
+    c
+      ..add(TextContent("name", _name.text))
+      ..add(TextContent("alias", _alias.text))
+      ..add(TextContent("father_name", _fatherName.text))
+      ..add(TextContent("mother_name", _motherName.text))
+      ..add(TextContent("religion", _religion.text))
+      ..add(TextContent("sect_sub_sect", _sectSubSect.text))
+      ..add(TextContent("caste", _caste.text))
+      ..add(TextContent("sub_caste", _subCaste.text))
+      ..add(TextContent("nationality", _nationality.text))
+      ..add(TextContent("cnic", _cnic.text))
+      ..add(TextContent("dob", _dob.text))
+      ..add(TextContent("age", _age.text))
+      ..add(TextContent("civ_edn", _civEdn.text))
+      ..add(TextContent("complexion", _complexion.text))
+      ..add(TextContent("contact_nos", _contactNos.text))
+      ..add(TextContent("facebook", _facebook.text))
+      ..add(TextContent("twitter", _twitter.text))
+      ..add(TextContent("tiktok", _tikTok.text))
+      ..add(TextContent("email", _email.text))
+      ..add(TextContent("passport_no", _passportNo.text))
+      ..add(TextContent("bank_acct_details", _bankAcctDetails.text))
+      ..add(TextContent("languages", _languages.text))
+      ..add(TextContent("temp_address", _tempAddress.text))
+      ..add(TextContent("perm_address", _permAddress.text))
+      ..add(TextContent("detail_of_visit_foregin_countries",
+          _detailOfVisitForeginCountries.text))
+      ..add(TextContent("areas_of_influence", _areasOfInfluence.text))
+      ..add(TextContent("active_since", _activeSince.text))
+      ..add(TextContent("likely_loc", _likelyLoc.text))
+      ..add(TextContent("tier", _tier.text))
+      ..add(TextContent("affl_with_ts_gp", _afflWithTsGp.text))
+      ..add(TextContent("political_affl", _politicalAffl.text))
+      ..add(TextContent("religious_affl", _religiousAffl.text))
+      ..add(TextContent("occupation", _occupation.text))
+      ..add(TextContent("source_of_income", _sourceOfIncome.text))
+      ..add(TextContent("property_details", _propertyDetails.text))
+      ..add(TextContent("marital_status", _maritalStatus.text))
+      ..add(TextContent("detail_of_children", _detailOfChildren.text))
+      ..add(TextContent("brothers", _brothers.text))
+      ..add(TextContent("sisters", _sisters.text))
+      ..add(TextContent("uncles", _uncles.text))
+      ..add(TextContent("aunts", _aunts.text))
+      ..add(TextContent("cousins", _cousins.text))
+      ..add(TextContent("father_in_law", _fatherInLaw.text))
+      ..add(TextContent("mother_in_law", _motherInLaw.text))
+      ..add(TextContent("brother_in_law", _brotherInLaw.text))
+      ..add(TextContent("sister_in_law", _sisterInLaw.text))
+      ..add(TextContent("criminal_activities", _criminalActivities.text))
+      ..add(TextContent("extortion_activities", _extortionActivities.text))
+      ..add(TextContent("attitude_towards_govt", _attitudeTowardsGovt.text))
+      ..add(TextContent("attitude_towards_state", _attitudeTowardsState.text))
+      ..add(TextContent("attitude_towards_sfs", _attitudeTowardsSFs.text))
+      ..add(TextContent("gen_habbits", _genHabbits.text))
+      ..add(TextContent("reputation_among_locals", _reputationAmongLocals.text))
+      ..add(TextContent("fir_status", _firStatus.text))
+      ..add(TextContent("gen_remarks", _genRemarks.text))
+      ..add(ImageContent('img', bytes));
+
+    final d = await docx.generate(c);
+    // final of = File('generated.docx');
+
+    // if (d != null) await of.writeAsBytes(d);
+
+    if (d != null) {
+      // Open file picker dialog to select the save location
+      String? outputPath = await FilePicker.platform.saveFile(
+        dialogTitle: 'Please select an output file:',
+        fileName: 'generated.docx',
+        type: FileType.custom,
+        allowedExtensions: ['docx'],
+      );
+
+      if (outputPath != null) {
+        final of = File(outputPath);
+        await of.writeAsBytes(d);
       }
     }
-
-    pdf.addPage(
-      pw.Page(
-        pageFormat: PdfPageFormat.a4,
-        build: (pw.Context context) {
-          return pw.ListView(children: [
-            pw.Text(
-              'Low Down',
-              style: pw.TextStyle(
-                fontSize: 32,
-                fontWeight: pw.FontWeight.bold,
-                color: const PdfColor.fromInt(0xFFFFD966),
-              ),
-            ),
-            if (imageData != null) ...[
-              pw.SizedBox(height: 20),
-              pw.Image(
-                pw.MemoryImage(imageData),
-                width: 200,
-                height: 200,
-              ),
-            ],
-            pw.SizedBox(height: 20),
-            pw.Expanded(
-              child: pw.Row(children: [
-                pw.Expanded(
-                  child: pw.Column(
-                    crossAxisAlignment: pw.CrossAxisAlignment.start,
-                    children: [
-                      // Text Inputs : Name, Alias, Father Name, Mother Name, Religion, Sect/Sub Sect, Caste, SUb Caste, National
-                      pw.Text('Name: ${_name.text}',
-                          style: const pw.TextStyle(
-                              color: PdfColor.fromInt(0xFF000000))),
-                      pw.Text('Alias: ${_alias.text}'),
-                      pw.Text('Father Name: ${_fatherName.text}'),
-                      pw.Text('Mother Name: ${_motherName.text}'),
-                      pw.Text('Religion: ${_religion.text}'),
-                      pw.Text('Sect/Sub Sect: ${_sectSubSect.text}'),
-                      pw.Text('Caste: ${_caste.text}'),
-                      pw.Text('Sub Caste: ${_subCaste.text}'),
-                      pw.SizedBox(height: 10),
-
-                      // Text Inputs: Passport No, Bank Acct Details, Languages, Temp Address, Perm Address, Detail of Visit foregin countries, Areas of Influence, Active Since, Likely Loc, Tier, Affl with Ts Gp
-                      pw.Text('Passport No: ${_passportNo.text}'),
-                      pw.Text('Bank Acct Details: ${_bankAcctDetails.text}'),
-                      pw.Text('Languages: ${_languages.text}'),
-                      pw.Text('Temp Address: ${_tempAddress.text}'),
-                      pw.Text('Perm Address: ${_permAddress.text}'),
-                      pw.Text(
-                          'Detail of Visit foregin countries: ${_detailOfVisitForeginCountries.text}'),
-                      pw.Text('Areas of Influence: ${_areasOfInfluence.text}'),
-                      pw.Text('Active Since: ${_activeSince.text}'),
-                      pw.Text('Likely Loc: ${_likelyLoc.text}'),
-                      pw.Text('Tier: ${_tier.text}'),
-                      pw.Text('Affl with Ts Gp: ${_afflWithTsGp.text}'),
-                      pw.SizedBox(height: 10),
-
-                      // Text Inputs: Political Affl, Religious Affl, Occupation, Mother Name, Suurce of Income, Property Details, Marital Status, Detail of Children
-                      pw.Text('Political Affl: ${_politicalAffl.text}'),
-                      pw.Text('Religious Affl: ${_religiousAffl.text}'),
-                      pw.Text('Occupation: ${_occupation.text}'),
-                      pw.Text('Mother Name: ${_motherName.text}'),
-                      pw.Text('Source of Income: ${_sourceOfIncome.text}'),
-                      pw.Text('Property Details: ${_propertyDetails.text}'),
-                      pw.Text('Marital Status: ${_maritalStatus.text}'),
-                      pw.Text('Detail of Children: ${_detailOfChildren.text}'),
-                    ],
-                  ),
-                ),
-                pw.Expanded(
-                    child: pw.Column(
-                        crossAxisAlignment: pw.CrossAxisAlignment.start,
-                        children: [
-                      // Label Family Detail (Own) i.2 Name, Relation, Age, Profession, Address
-                      pw.Text('Brothers: ${_brothers.text}'),
-                      pw.Text('Sisters: ${_sisters.text}'),
-                      pw.Text('Uncles: ${_uncles.text}'),
-                      pw.Text('Aunts: ${_aunts.text}'),
-                      pw.Text('Cousins: ${_cousins.text}'),
-                      pw.SizedBox(height: 10),
-
-                      // Label: In Laws Detail (i.2 Name, Relation, Age, Profession, Address)
-                      pw.Text('Father in Law: ${_fatherInLaw.text}'),
-                      pw.Text('Mother in Law: ${_motherInLaw.text}'),
-                      pw.Text('Brother in Law: ${_brotherInLaw.text}'),
-                      pw.Text('Sister in Law: ${_sisterInLaw.text}'),
-                      pw.SizedBox(height: 10),
-
-                      // Text Inputs: Criminal Activities, Extortion Activities, Attitude towards Govt, Attitude towards State, Attitude towards SFs, Gen Habbits, Reputation among locals, FIR Status
-                      pw.Text(
-                          'Criminal Activities: ${_criminalActivities.text}'),
-                      pw.Text(
-                          'Extortion Activities: ${_extortionActivities.text}'),
-                      pw.Text(
-                          'Attitude towards Govt: ${_attitudeTowardsGovt.text}'),
-                      pw.Text(
-                          'Attitude towards State: ${_attitudeTowardsState.text}'),
-                      pw.Text(
-                          'Attitude towards SFs: ${_attitudeTowardsSFs.text}'),
-                      pw.Text('Gen Habbits: ${_genHabbits.text}'),
-                      pw.Text(
-                          'Reputation among locals: ${_reputationAmongLocals.text}'),
-                      pw.Text('FIR Status: ${_firStatus.text}'),
-                      pw.SizedBox(height: 10),
-
-                      // Gen Remarks
-                      pw.Text('Gen Remarks: ${_genRemarks.text}'),
-                    ]))
-              ]),
-            ),
-            pw.SizedBox(width: 50),
-          ]);
-        },
-      ),
-    );
-
-    // await Printing.layoutPdf(
-    //   onLayout: (PdfPageFormat format) async => pdf.save(),
-    // );
-
-    // Save the PDF after the page has been added.
-    final bytes = await pdf.save();
-
-    // Now use the 'bytes' to print using Printing.layoutPdf
-    await Printing.layoutPdf(onLayout: (_) => bytes);
   }
 
-  void _exportAsDoc() async {}
+  void _exportAsPDF() async {
+//     // Generate PDF from template.docx
+//     final f = File("assets/docx/template.docx");
+//     final docx = await DocxTemplate.fromBytes(await f.readAsBytes());
+
+//     // Update image with onlien image
+//     final data =
+//         await http.get(Uri.parse('$backendAssetUrl/images/$thumbnail'));
+//     final bytes = data.bodyBytes;
+
+//     Content c = Content();
+//     c
+//       ..add(TextContent("name", _name.text))
+//       ..add(TextContent("alias", _alias.text))
+//       ..add(TextContent("father_name", _fatherName.text))
+//       ..add(TextContent("mother_name", _motherName.text))
+//       ..add(TextContent("religion", _religion.text))
+//       ..add(TextContent("sect_sub_sect", _sectSubSect.text))
+//       ..add(TextContent("caste", _caste.text))
+//       ..add(TextContent("sub_caste", _subCaste.text))
+//       ..add(TextContent("nationality", _nationality.text))
+//       ..add(TextContent("cnic", _cnic.text))
+//       ..add(TextContent("dob", _dob.text))
+//       ..add(TextContent("age", _age.text))
+//       ..add(TextContent("civ_edn", _civEdn.text))
+//       ..add(TextContent("complexion", _complexion.text))
+//       ..add(TextContent("contact_nos", _contactNos.text))
+//       ..add(TextContent("facebook", _facebook.text))
+//       ..add(TextContent("twitter", _twitter.text))
+//       ..add(TextContent("tiktok", _tikTok.text))
+//       ..add(TextContent("email", _email.text))
+//       ..add(TextContent("passport_no", _passportNo.text))
+//       ..add(TextContent("bank_acct_details", _bankAcctDetails.text))
+//       ..add(TextContent("languages", _languages.text))
+//       ..add(TextContent("temp_address", _tempAddress.text))
+//       ..add(TextContent("perm_address", _permAddress.text))
+//       ..add(TextContent("detail_of_visit_foregin_countries",
+//           _detailOfVisitForeginCountries.text))
+//       ..add(TextContent("areas_of_influence", _areasOfInfluence.text))
+//       ..add(TextContent("active_since", _activeSince.text))
+//       ..add(TextContent("likely_loc", _likelyLoc.text))
+//       ..add(TextContent("tier", _tier.text))
+//       ..add(TextContent("affl_with_ts_gp", _afflWithTsGp.text))
+//       ..add(TextContent("political_affl", _politicalAffl.text))
+//       ..add(TextContent("religious_affl", _religiousAffl.text))
+//       ..add(TextContent("occupation", _occupation.text))
+//       ..add(TextContent("source_of_income", _sourceOfIncome.text))
+//       ..add(TextContent("property_details", _propertyDetails.text))
+//       ..add(TextContent("marital_status", _maritalStatus.text))
+//       ..add(TextContent("detail_of_children", _detailOfChildren.text))
+//       ..add(TextContent("brothers", _brothers.text))
+//       ..add(TextContent("sisters", _sisters.text))
+//       ..add(TextContent("uncles", _uncles.text))
+//       ..add(TextContent("aunts", _aunts.text))
+//       ..add(TextContent("cousins", _cousins.text))
+//       ..add(TextContent("father_in_law", _fatherInLaw.text))
+//       ..add(TextContent("mother_in_law", _motherInLaw.text))
+//       ..add(TextContent("brother_in_law", _brotherInLaw.text))
+//       ..add(TextContent("sister_in_law", _sisterInLaw.text))
+//       ..add(TextContent("criminal_activities", _criminalActivities.text))
+//       ..add(TextContent("extortion_activities", _extortionActivities.text))
+//       ..add(TextContent("attitude_towards_govt", _attitudeTowardsGovt.text))
+//       ..add(TextContent("attitude_towards_state", _attitudeTowardsState.text))
+//       ..add(TextContent("attitude_towards_sfs", _attitudeTowardsSFs.text))
+//       ..add(TextContent("gen_habbits", _genHabbits.text))
+//       ..add(TextContent("reputation_among_locals", _reputationAmongLocals.text))
+//       ..add(TextContent("fir_status", _firStatus.text))
+//       ..add(TextContent("gen_remarks", _genRemarks.text))
+//       ..add(ImageContent('img', bytes));
+
+//     final d = await docx.generate(c);
+//     final fileGenerated = File('generated.docx');
+//     if (d != null) {
+//       await fileGenerated.writeAsBytes(d);
+
+//       final PdfDocument document =
+//           PdfDocument(inputBytes: File('generated.docx').readAsBytesSync());
+
+// //Save the document.
+//       File('yourFileName.pdf').writeAsBytes(await document.save());
+// //Dispose the document.
+//       document.dispose();
+//     }
+  }
 
   @override
   Widget build(BuildContext context) {
