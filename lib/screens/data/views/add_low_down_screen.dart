@@ -532,8 +532,7 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
                       const SizedBox(width: 50),
                       SizedBox(
                           width: 300,
-                          child: Expanded(
-                              child: Column(
+                          child: Column(
                             children: [
                               // Thumbnail
                               Container(
@@ -608,7 +607,7 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
                                 child: const Text('Export as PDF'),
                               ),
                             ],
-                          ))),
+                          )),
                       const SizedBox(width: 50),
                       Expanded(
                         child: Column(

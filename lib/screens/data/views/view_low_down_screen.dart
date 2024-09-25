@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:pdf/pdf.dart';
+
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 
@@ -581,8 +582,7 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
                       const SizedBox(width: 50),
                       SizedBox(
                           width: 300,
-                          child: Expanded(
-                              child: Column(
+                          child: Column(
                             children: [
                               // Thumbnail
                               Container(
@@ -652,7 +652,7 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
                                 child: const Text('Exit'),
                               ),
                             ],
-                          ))),
+                          )),
                       const SizedBox(width: 50),
                       Expanded(
                         child: Column(
