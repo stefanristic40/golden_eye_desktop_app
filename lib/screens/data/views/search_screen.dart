@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -259,8 +261,7 @@ class SearchScreenState extends State<SearchScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 400,
+                      Expanded(
                         child: Column(
                           children: [
                             const Align(
@@ -402,8 +403,10 @@ class SearchScreenState extends State<SearchScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 40),
-                      Expanded(
+                      const SizedBox(width: 20),
+                      SizedBox(
+                        width: width < 1200 ? 430 : 530,
+                        height: width < 1200 ? 300 : 400,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -432,7 +435,6 @@ class SearchScreenState extends State<SearchScreen> {
                             ),
                             const SizedBox(width: 20),
                             Container(
-                              width: 400,
                               height: 400,
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -443,14 +445,14 @@ class SearchScreenState extends State<SearchScreen> {
                               child: selectedData["thumbnail"] != null
                                   ? Image.network(
                                       '$backendAssetUrl/images/${selectedData["thumbnail"]}',
-                                      width: 400,
-                                      height: 400,
+                                      width: width < 1200 ? 300 : 400,
+                                      height: width < 1200 ? 300 : 400,
                                       fit: BoxFit.cover,
                                     )
-                                  : const SizedBox(
-                                      width: 400,
-                                      height: 400,
-                                      child: Icon(
+                                  : SizedBox(
+                                      width: width < 1200 ? 300 : 400,
+                                      height: width < 1200 ? 300 : 400,
+                                      child: const Icon(
                                         Icons.image,
                                         size: 100,
                                         color: Colors.grey,
@@ -483,9 +485,8 @@ class SearchScreenState extends State<SearchScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(width: 50),
-                      SizedBox(
-                        width: 400,
+                      const SizedBox(width: 20),
+                      Expanded(
                         child: Column(
                           children: [
                             const Align(
@@ -539,216 +540,43 @@ class SearchScreenState extends State<SearchScreen> {
                     Column(
                       children: [
                         Table(
+                          border: TableBorder.all(
+                              color: Colors.black), // Add border to the Table
+
                           children: [
-                            const TableRow(
+                            TableRow(
+                              // Header background color to black
+                              // Text color to white
+                              decoration: const BoxDecoration(
+                                color: Colors.black,
+                              ),
                               children: [
-                                // Date
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Date',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // Time
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Time',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                // Org
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Org',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Sub Org',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Name',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Comds',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Watch List',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Breif/Description',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Photo',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Area',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Type of Inc',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Cas',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Martyred',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Inj',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Killed',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Case ID',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Lat, Long',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                TableCell(
-                                  child: Center(
-                                    child: Text(
-                                      'Low Down',
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                _buildTableHeaderCell('Date'),
+                                _buildTableHeaderCell('Time'),
+                                _buildTableHeaderCell('Org'),
+                                _buildTableHeaderCell('Sub Org'),
+                                _buildTableHeaderCell('Name'),
+                                _buildTableHeaderCell('Comds'),
+                                _buildTableHeaderCell('Watch List'),
+                                _buildTableHeaderCell('Breif/Description'),
+                                _buildTableHeaderCell('Photo'),
+                                _buildTableHeaderCell('Area'),
+                                _buildTableHeaderCell('Type of Inc'),
+                                _buildTableHeaderCell('Cas'),
+                                _buildTableHeaderCell('Martyred'),
+                                _buildTableHeaderCell('Inj'),
+                                _buildTableHeaderCell('Killed'),
+                                _buildTableHeaderCell('Case ID'),
+                                _buildTableHeaderCell('Lat, Long'),
+                                _buildTableHeaderCell('Low Down'),
                               ],
                             ),
                             ..._searchedData
                                 .map((data) => TableRow(
                                       children: [
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               DateFormat('yyyy-MM-dd').format(
@@ -760,6 +588,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               DateFormat('HH:mm').format(
@@ -780,6 +610,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['organization'],
@@ -790,6 +622,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['sub_organization'],
@@ -800,6 +634,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['name'],
@@ -810,6 +646,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['comds'],
@@ -820,6 +658,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['watch_list'],
@@ -830,6 +670,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['brief_description'],
@@ -840,25 +682,33 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
-                                          child: Center(
-                                              child: data['thumbnail'] != null
-                                                  ? Image.network(
-                                                      '$backendAssetUrl/images/${data['thumbnail']}',
-                                                      width: 60,
-                                                      height: 60,
-                                                      fit: BoxFit.cover,
-                                                    )
-                                                  : const SizedBox(
-                                                      width: 60,
-                                                      height: 60,
-                                                      child: Icon(
-                                                        Icons.image,
-                                                        size: 60,
-                                                        color: Colors.grey,
-                                                      ),
-                                                    )),
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5.0, bottom: 5.0),
+                                            child: Center(
+                                                child: data['thumbnail'] != null
+                                                    ? Image.network(
+                                                        '$backendAssetUrl/images/${data['thumbnail']}',
+                                                        width: 60,
+                                                        height: 60,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : const SizedBox(
+                                                        width: 60,
+                                                        height: 60,
+                                                        child: Icon(
+                                                          Icons.image,
+                                                          size: 60,
+                                                          color: Colors.grey,
+                                                        ),
+                                                      )),
+                                          ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['area'],
@@ -869,23 +719,22 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
-                                            // child:  Text(
-                                            //   data['incident_types'].join('\n'),
-                                            //   style: const TextStyle(
-                                            //     color: Colors.black,
-                                            //   ),
-                                            // ),
+                                            verticalAlignment:
+                                                TableCellVerticalAlignment
+                                                    .middle,
                                             child: Column(children: [
-                                          for (final type
-                                              in data['incident_types'])
-                                            Text(
-                                              type,
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                        ])),
+                                              for (final type
+                                                  in data['incident_types'])
+                                                Text(
+                                                  type,
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                            ])),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['cas'],
@@ -896,6 +745,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['martyped'],
@@ -906,6 +757,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['injured'],
@@ -916,6 +769,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['killed'],
@@ -926,6 +781,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               data['case_id'],
@@ -936,6 +793,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
                                               '${data['latitude']} ${data['longitude']}',
@@ -946,6 +805,8 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: ElevatedButton(
                                               onPressed: () {
@@ -1002,6 +863,22 @@ class SearchScreenState extends State<SearchScreen> {
         ),
         Expanded(child: child),
       ],
+    );
+  }
+
+  Widget _buildTableHeaderCell(String text) {
+    return TableCell(
+      verticalAlignment: TableCellVerticalAlignment.middle,
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ),
     );
   }
 }

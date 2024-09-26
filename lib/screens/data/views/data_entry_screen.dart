@@ -17,8 +17,6 @@ class DataEntryScreen extends StatefulWidget {
 }
 
 class DataEntryScreenState extends State<DataEntryScreen> {
-  final _formKey = GlobalKey<FormState>();
-
   DateTime? _date;
   TimeOfDay? _time;
   String _casValue = 'Own';
@@ -266,60 +264,23 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Organization:',
-                              child: TextFormField(
-                                controller: _organization,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Organization:',
+                                controller: _organization),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Sub Organization:',
-                              child: TextFormField(
-                                controller: _subOrganization,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Sub Organization:',
+                                controller: _subOrganization),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Name:',
-                              child: TextFormField(
-                                controller: _name,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Name:', controller: _name),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Comds:',
-                              child: TextFormField(
-                                controller: _comds,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Comds:', controller: _comds),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Brief/Description:',
-                              child: TextFormField(
-                                controller: _briefDescription,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Brief Description:',
+                                controller: _briefDescription),
                             const SizedBox(
                                 height: 10), // Show the selected image
                             _buildRow(
@@ -420,16 +381,8 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                       Expanded(
                         child: Column(
                           children: [
-                            _buildRow(
-                              label: 'Area:',
-                              child: TextFormField(
-                                controller: _area,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Area:', controller: _area),
                             const SizedBox(height: 10),
                             _buildRow(
                               label: 'Cas:',
@@ -453,71 +406,23 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                               ),
                             ),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Martyped:',
-                              child: TextFormField(
-                                controller: _martyped,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Martyped:', controller: _martyped),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Injured:',
-                              child: TextFormField(
-                                controller: _injured,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Injured:', controller: _injured),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Killed:',
-                              child: TextFormField(
-                                controller: _killed,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Killed:', controller: _killed),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Latitute:',
-                              child: TextFormField(
-                                controller: _latitute,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Latitude:', controller: _latitute),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Longitude:',
-                              child: TextFormField(
-                                controller: _longitude,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Longitude:', controller: _longitude),
                             const SizedBox(height: 10),
-                            _buildRow(
-                              label: 'Give Case ID #:',
-                              child: TextFormField(
-                                controller: _caseId,
-                                decoration: const InputDecoration(
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 10.0),
-                                ),
-                              ),
-                            ),
+                            _buildTextInputRow(
+                                label: 'Case ID:', controller: _caseId),
                             const SizedBox(height: 10),
                             _buildRow(
                               label: 'Watch List:',
@@ -615,6 +520,39 @@ class DataEntryScreenState extends State<DataEntryScreen> {
           ),
         ),
         Expanded(child: child),
+      ],
+    );
+  }
+
+  // Text Input Widget
+  Widget _buildTextInputRow(
+      {required String label, required TextEditingController controller}) {
+    return Row(
+      children: [
+        SizedBox(
+          width: 200,
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Expanded(
+          child: SizedBox(
+            height: 50,
+            child: TextFormField(
+              controller: controller,
+              style: const TextStyle(fontSize: 15),
+              decoration: const InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 0, horizontal: 10.0),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
