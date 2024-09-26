@@ -13,7 +13,6 @@ import 'package:my_windows_app/constants.dart';
 import 'package:my_windows_app/route/route_constants.dart';
 import 'package:docx_template/docx_template.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class ViewLowDownScreen extends StatefulWidget {
   final String? dataEntryId;
@@ -296,88 +295,112 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
   }
 
   void _exportAsPDF() async {
-//     // Generate PDF from template.docx
-//     final f = File("assets/docx/template.docx");
-//     final docx = await DocxTemplate.fromBytes(await f.readAsBytes());
+    final f = File("assets/docx/template.docx");
+    final docx = await DocxTemplate.fromBytes(await f.readAsBytes());
 
-//     // Update image with onlien image
-//     final data =
-//         await http.get(Uri.parse('$backendAssetUrl/images/$thumbnail'));
-//     final bytes = data.bodyBytes;
+    // Update image with onlien image
+    final data =
+        await http.get(Uri.parse('$backendAssetUrl/images/$thumbnail'));
+    final bytes = data.bodyBytes;
 
-//     Content c = Content();
-//     c
-//       ..add(TextContent("name", _name.text))
-//       ..add(TextContent("alias", _alias.text))
-//       ..add(TextContent("father_name", _fatherName.text))
-//       ..add(TextContent("mother_name", _motherName.text))
-//       ..add(TextContent("religion", _religion.text))
-//       ..add(TextContent("sect_sub_sect", _sectSubSect.text))
-//       ..add(TextContent("caste", _caste.text))
-//       ..add(TextContent("sub_caste", _subCaste.text))
-//       ..add(TextContent("nationality", _nationality.text))
-//       ..add(TextContent("cnic", _cnic.text))
-//       ..add(TextContent("dob", _dob.text))
-//       ..add(TextContent("age", _age.text))
-//       ..add(TextContent("civ_edn", _civEdn.text))
-//       ..add(TextContent("complexion", _complexion.text))
-//       ..add(TextContent("contact_nos", _contactNos.text))
-//       ..add(TextContent("facebook", _facebook.text))
-//       ..add(TextContent("twitter", _twitter.text))
-//       ..add(TextContent("tiktok", _tikTok.text))
-//       ..add(TextContent("email", _email.text))
-//       ..add(TextContent("passport_no", _passportNo.text))
-//       ..add(TextContent("bank_acct_details", _bankAcctDetails.text))
-//       ..add(TextContent("languages", _languages.text))
-//       ..add(TextContent("temp_address", _tempAddress.text))
-//       ..add(TextContent("perm_address", _permAddress.text))
-//       ..add(TextContent("detail_of_visit_foregin_countries",
-//           _detailOfVisitForeginCountries.text))
-//       ..add(TextContent("areas_of_influence", _areasOfInfluence.text))
-//       ..add(TextContent("active_since", _activeSince.text))
-//       ..add(TextContent("likely_loc", _likelyLoc.text))
-//       ..add(TextContent("tier", _tier.text))
-//       ..add(TextContent("affl_with_ts_gp", _afflWithTsGp.text))
-//       ..add(TextContent("political_affl", _politicalAffl.text))
-//       ..add(TextContent("religious_affl", _religiousAffl.text))
-//       ..add(TextContent("occupation", _occupation.text))
-//       ..add(TextContent("source_of_income", _sourceOfIncome.text))
-//       ..add(TextContent("property_details", _propertyDetails.text))
-//       ..add(TextContent("marital_status", _maritalStatus.text))
-//       ..add(TextContent("detail_of_children", _detailOfChildren.text))
-//       ..add(TextContent("brothers", _brothers.text))
-//       ..add(TextContent("sisters", _sisters.text))
-//       ..add(TextContent("uncles", _uncles.text))
-//       ..add(TextContent("aunts", _aunts.text))
-//       ..add(TextContent("cousins", _cousins.text))
-//       ..add(TextContent("father_in_law", _fatherInLaw.text))
-//       ..add(TextContent("mother_in_law", _motherInLaw.text))
-//       ..add(TextContent("brother_in_law", _brotherInLaw.text))
-//       ..add(TextContent("sister_in_law", _sisterInLaw.text))
-//       ..add(TextContent("criminal_activities", _criminalActivities.text))
-//       ..add(TextContent("extortion_activities", _extortionActivities.text))
-//       ..add(TextContent("attitude_towards_govt", _attitudeTowardsGovt.text))
-//       ..add(TextContent("attitude_towards_state", _attitudeTowardsState.text))
-//       ..add(TextContent("attitude_towards_sfs", _attitudeTowardsSFs.text))
-//       ..add(TextContent("gen_habbits", _genHabbits.text))
-//       ..add(TextContent("reputation_among_locals", _reputationAmongLocals.text))
-//       ..add(TextContent("fir_status", _firStatus.text))
-//       ..add(TextContent("gen_remarks", _genRemarks.text))
-//       ..add(ImageContent('img', bytes));
+    Content c = Content();
+    c
+      ..add(TextContent("name", _name.text))
+      ..add(TextContent("alias", _alias.text))
+      ..add(TextContent("father_name", _fatherName.text))
+      ..add(TextContent("mother_name", _motherName.text))
+      ..add(TextContent("religion", _religion.text))
+      ..add(TextContent("sect_sub_sect", _sectSubSect.text))
+      ..add(TextContent("caste", _caste.text))
+      ..add(TextContent("sub_caste", _subCaste.text))
+      ..add(TextContent("nationality", _nationality.text))
+      ..add(TextContent("cnic", _cnic.text))
+      ..add(TextContent("dob", _dob.text))
+      ..add(TextContent("age", _age.text))
+      ..add(TextContent("civ_edn", _civEdn.text))
+      ..add(TextContent("complexion", _complexion.text))
+      ..add(TextContent("contact_nos", _contactNos.text))
+      ..add(TextContent("facebook", _facebook.text))
+      ..add(TextContent("twitter", _twitter.text))
+      ..add(TextContent("tiktok", _tikTok.text))
+      ..add(TextContent("email", _email.text))
+      ..add(TextContent("passport_no", _passportNo.text))
+      ..add(TextContent("bank_acct_details", _bankAcctDetails.text))
+      ..add(TextContent("languages", _languages.text))
+      ..add(TextContent("temp_address", _tempAddress.text))
+      ..add(TextContent("perm_address", _permAddress.text))
+      ..add(TextContent("detail_of_visit_foregin_countries",
+          _detailOfVisitForeginCountries.text))
+      ..add(TextContent("areas_of_influence", _areasOfInfluence.text))
+      ..add(TextContent("active_since", _activeSince.text))
+      ..add(TextContent("likely_loc", _likelyLoc.text))
+      ..add(TextContent("tier", _tier.text))
+      ..add(TextContent("affl_with_ts_gp", _afflWithTsGp.text))
+      ..add(TextContent("political_affl", _politicalAffl.text))
+      ..add(TextContent("religious_affl", _religiousAffl.text))
+      ..add(TextContent("occupation", _occupation.text))
+      ..add(TextContent("source_of_income", _sourceOfIncome.text))
+      ..add(TextContent("property_details", _propertyDetails.text))
+      ..add(TextContent("marital_status", _maritalStatus.text))
+      ..add(TextContent("detail_of_children", _detailOfChildren.text))
+      ..add(TextContent("brothers", _brothers.text))
+      ..add(TextContent("sisters", _sisters.text))
+      ..add(TextContent("uncles", _uncles.text))
+      ..add(TextContent("aunts", _aunts.text))
+      ..add(TextContent("cousins", _cousins.text))
+      ..add(TextContent("father_in_law", _fatherInLaw.text))
+      ..add(TextContent("mother_in_law", _motherInLaw.text))
+      ..add(TextContent("brother_in_law", _brotherInLaw.text))
+      ..add(TextContent("sister_in_law", _sisterInLaw.text))
+      ..add(TextContent("criminal_activities", _criminalActivities.text))
+      ..add(TextContent("extortion_activities", _extortionActivities.text))
+      ..add(TextContent("attitude_towards_govt", _attitudeTowardsGovt.text))
+      ..add(TextContent("attitude_towards_state", _attitudeTowardsState.text))
+      ..add(TextContent("attitude_towards_sfs", _attitudeTowardsSFs.text))
+      ..add(TextContent("gen_habbits", _genHabbits.text))
+      ..add(TextContent("reputation_among_locals", _reputationAmongLocals.text))
+      ..add(TextContent("fir_status", _firStatus.text))
+      ..add(TextContent("gen_remarks", _genRemarks.text))
+      ..add(ImageContent('img', bytes));
 
-//     final d = await docx.generate(c);
-//     final fileGenerated = File('generated.docx');
-//     if (d != null) {
-//       await fileGenerated.writeAsBytes(d);
+    final d = await docx.generate(c);
 
-//       final PdfDocument document =
-//           PdfDocument(inputBytes: File('generated.docx').readAsBytesSync());
+    if (d != null) {
+      // Send the docx data to backend to convert it to PDF
 
-// //Save the document.
-//       File('yourFileName.pdf').writeAsBytes(await document.save());
-// //Dispose the document.
-//       document.dispose();
-//     }
+      final request = http.MultipartRequest(
+        'POST',
+        Uri.parse('$backendUrl/convert/docx-to-pdf'),
+      );
+
+      request.files.add(http.MultipartFile.fromBytes(
+        'docx',
+        d,
+        filename: 'generated.docx',
+      ));
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        final pdfBytes = await response.stream.toBytes();
+
+        // Open file picker dialog to select the save location
+        String? outputPath = await FilePicker.platform.saveFile(
+          dialogTitle: 'Please select an output file:',
+          fileName: 'generated.pdf',
+          type: FileType.custom,
+          allowedExtensions: ['pdf'],
+        );
+
+        if (outputPath != null) {
+          final of = File(outputPath);
+          await of.writeAsBytes(pdfBytes);
+        }
+      } else {
+        final responseBody = await response.stream.bytesToString();
+        print(responseBody);
+      }
+    }
   }
 
   @override

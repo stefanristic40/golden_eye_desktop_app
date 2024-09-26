@@ -549,6 +549,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Date',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -560,6 +561,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Time',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -571,6 +573,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Org',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -581,6 +584,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Sub Org',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -591,6 +595,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Name',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -601,6 +606,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Comds',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -611,6 +617,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Watch List',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -621,6 +628,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Breif/Description',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -631,6 +639,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Photo',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -641,6 +650,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Area',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -651,6 +661,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Type of Inc',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -661,6 +672,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Cas',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -671,6 +683,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Martyred',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -681,6 +694,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Inj',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -691,6 +705,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Killed',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -701,6 +716,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Case ID',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -711,6 +727,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Lat, Long',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -721,6 +738,7 @@ class SearchScreenState extends State<SearchScreen> {
                                       'Low Down',
                                       style: TextStyle(
                                         color: Colors.black,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                   ),
@@ -851,15 +869,22 @@ class SearchScreenState extends State<SearchScreen> {
                                           ),
                                         ),
                                         TableCell(
-                                          child: Center(
-                                            child: Text(
-                                              data['incident_types'].join('\n'),
+                                            // child:  Text(
+                                            //   data['incident_types'].join('\n'),
+                                            //   style: const TextStyle(
+                                            //     color: Colors.black,
+                                            //   ),
+                                            // ),
+                                            child: Column(children: [
+                                          for (final type
+                                              in data['incident_types'])
+                                            Text(
+                                              type,
                                               style: const TextStyle(
                                                 color: Colors.black,
                                               ),
                                             ),
-                                          ),
-                                        ),
+                                        ])),
                                         TableCell(
                                           child: Center(
                                             child: Text(
