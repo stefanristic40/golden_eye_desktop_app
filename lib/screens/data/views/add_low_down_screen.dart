@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_windows_app/screens/data/components/export_as_doc.dart';
-import 'package:my_windows_app/screens/data/components/export_as_pdf.dart';
+import 'package:golden_eyes/screens/data/components/export_as_doc.dart';
+import 'package:golden_eyes/screens/data/components/export_as_pdf.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:my_windows_app/constants.dart';
-import 'package:my_windows_app/route/route_constants.dart';
+import 'package:golden_eyes/constants.dart';
+import 'package:golden_eyes/route/route_constants.dart';
 
 class AddLowDownScreen extends StatefulWidget {
   final String? dataEntryId;

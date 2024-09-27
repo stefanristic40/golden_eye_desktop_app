@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-import 'package:my_windows_app/constants.dart';
-import 'package:my_windows_app/route/route_constants.dart';
+import 'package:golden_eyes/constants.dart';
+import 'package:golden_eyes/route/route_constants.dart';
 
 class DataEntryScreen extends StatefulWidget {
   const DataEntryScreen({super.key});

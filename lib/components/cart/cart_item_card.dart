@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:my_windows_app/models/product_model.dart';
-import 'package:my_windows_app/providers/cart.dart';
+import 'package:golden_eyes/models/product_model.dart';
+import 'package:golden_eyes/providers/cart.dart';
 
 import '../../constants.dart';
 

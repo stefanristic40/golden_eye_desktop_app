@@ -1,5 +1,5 @@
-import 'package:my_windows_app/models/customer_model.dart';
-import 'package:my_windows_app/models/order_item_model.dart';
+import 'package:golden_eyes/models/customer_model.dart';
+import 'package:golden_eyes/models/order_item_model.dart';
 import 'package:intl/intl.dart';
 
 class OrderModel {

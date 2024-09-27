@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_windows_app/theme/button_theme.dart';
-import 'package:my_windows_app/theme/input_decoration_theme.dart';
+import 'package:golden_eyes/theme/button_theme.dart';
+import 'package:golden_eyes/theme/input_decoration_theme.dart';
 
 import '../constants.dart';
 import 'checkbox_themedata.dart';

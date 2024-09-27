@@ -1,8 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:my_windows_app/constants.dart';
-import 'package:my_windows_app/route/screen_export.dart';
+import 'package:golden_eyes/constants.dart';
+import 'package:golden_eyes/route/screen_export.dart';
 
 class EntryPoint extends StatefulWidget {
   const EntryPoint({super.key});

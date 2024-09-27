@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-import 'package:my_windows_app/constants.dart';
-import 'package:my_windows_app/route/route_constants.dart';
+import 'package:golden_eyes/constants.dart';
+import 'package:golden_eyes/route/route_constants.dart';
 
 // Function to parse TimeOfDay from string
 TimeOfDay parseTimeOfDay(String tod) {
@@ -16,6 +16,12 @@ TimeOfDay parseTimeOfDay(String tod) {
   final hour = int.parse(time.split(":")[0]);
   final minute = int.parse(time.split(":")[1]);
   return TimeOfDay(hour: hour, minute: minute);
+}
+
+String formatTime(String time) {
+  final timeOfDay = parseTimeOfDay(time);
+  final dateTime = DateTime(0, 0, 0, timeOfDay.hour, timeOfDay.minute);
+  return DateFormat('h:m a').format(dateTime);
 }
 
 class SearchScreen extends StatefulWidget {
@@ -543,6 +549,18 @@ class SearchScreenState extends State<SearchScreen> {
                           border: TableBorder.all(
                               color: Colors.black), // Add border to the Table
 
+                          columnWidths: const {
+                            0: FixedColumnWidth(85.0),
+                            1: FixedColumnWidth(70.0),
+                            8: FixedColumnWidth(75.0),
+                            11: FixedColumnWidth(50.0),
+                            12: FixedColumnWidth(70.0),
+                            13: FixedColumnWidth(50.0),
+                            14: FixedColumnWidth(50.0),
+                            15: FixedColumnWidth(70.0),
+                            17: FixedColumnWidth(80.0),
+                            18: FixedColumnWidth(100.0),
+                          },
                           children: [
                             TableRow(
                               // Header background color to black
@@ -568,6 +586,7 @@ class SearchScreenState extends State<SearchScreen> {
                                 _buildTableHeaderCell('Killed'),
                                 _buildTableHeaderCell('Case ID'),
                                 _buildTableHeaderCell('Lat, Long'),
+                                _buildTableHeaderCell('GOE'),
                                 _buildTableHeaderCell('Low Down'),
                               ],
                             ),
@@ -592,17 +611,7 @@ class SearchScreenState extends State<SearchScreen> {
                                               TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: Text(
-                                              DateFormat('HH:mm').format(
-                                                DateTime(
-                                                  0,
-                                                  0,
-                                                  0,
-                                                  parseTimeOfDay(data['time'])
-                                                      .hour,
-                                                  parseTimeOfDay(data['time'])
-                                                      .minute,
-                                                ),
-                                              ),
+                                              formatTime(data['time']),
                                               style: const TextStyle(
                                                 color: Colors.black,
                                               ),
@@ -796,11 +805,37 @@ class SearchScreenState extends State<SearchScreen> {
                                           verticalAlignment:
                                               TableCellVerticalAlignment.middle,
                                           child: Center(
-                                            child: Text(
-                                              '${data['latitude']} ${data['longitude']}',
-                                              style: const TextStyle(
-                                                color: Colors.black,
+                                              child: Column(
+                                            children: [
+                                              Text(
+                                                data['latitude'],
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                ),
                                               ),
+                                              Text(
+                                                data['longitude'],
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                        ),
+                                        TableCell(
+                                          verticalAlignment:
+                                              TableCellVerticalAlignment.middle,
+                                          child: Center(
+                                            child: ElevatedButton(
+                                              onPressed: () {
+                                                // Open Google Earth with lat, long
+                                                final String url =
+                                                    'https://earth.google.com/web/search/${data['latitude']},${data['longitude']}';
+                                                // Only for Windows
+                                                Process.start('cmd',
+                                                    ['/c', 'start', url]);
+                                              },
+                                              child: const Text('GOE'),
                                             ),
                                           ),
                                         ),

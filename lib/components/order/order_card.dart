@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_windows_app/constants.dart';
-import 'package:my_windows_app/models/customer_model.dart';
-import 'package:my_windows_app/models/order_item_model.dart';
-import 'package:my_windows_app/models/order_model.dart';
+import 'package:golden_eyes/constants.dart';
+import 'package:golden_eyes/models/customer_model.dart';
+import 'package:golden_eyes/models/order_item_model.dart';
+import 'package:golden_eyes/models/order_model.dart';
 
 class OrderCard extends StatelessWidget {
   const OrderCard(

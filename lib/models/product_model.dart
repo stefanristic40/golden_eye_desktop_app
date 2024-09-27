@@ -1,4 +1,4 @@
-import 'package:my_windows_app/models/category_model.dart';
+import 'package:golden_eyes/models/category_model.dart';
 
 class ProductModel {
   final int id;

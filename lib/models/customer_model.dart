@@ -1,4 +1,4 @@
-import 'package:my_windows_app/models/tag_model.dart';
+import 'package:golden_eyes/models/tag_model.dart';
 
 class CustomerModel {
   final int id;

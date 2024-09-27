@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_windows_app/providers/cart.dart';
-import 'package:my_windows_app/route/route_constants.dart';
-import 'package:my_windows_app/route/router.dart' as router;
-import 'package:my_windows_app/theme/app_theme.dart';
+import 'package:golden_eyes/providers/cart.dart';
+import 'package:golden_eyes/route/route_constants.dart';
+import 'package:golden_eyes/route/router.dart' as router;
+import 'package:golden_eyes/theme/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 

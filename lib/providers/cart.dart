@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:my_windows_app/models/cart_item_model.dart';
-import 'package:my_windows_app/models/product_model.dart';
+import 'package:golden_eyes/models/cart_item_model.dart';
+import 'package:golden_eyes/models/product_model.dart';
 import 'package:http/http.dart' as http;
 
 import 'dart:convert';
 
-import 'package:my_windows_app/constants.dart';
-import 'package:my_windows_app/models/customer_model.dart';
+import 'package:golden_eyes/constants.dart';
+import 'package:golden_eyes/models/customer_model.dart';
 
 class CartProvider with ChangeNotifier {
   List<CartItemModel> _items = [];

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:my_windows_app/components/Banner/L/banner_l.dart';
+import 'package:golden_eyes/components/Banner/L/banner_l.dart';
 
 import '../../../constants.dart';
 

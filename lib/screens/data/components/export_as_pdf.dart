@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:my_windows_app/constants.dart';
+import 'package:golden_eyes/constants.dart';
 import 'package:docx_template/docx_template.dart';
 import 'package:file_picker/file_picker.dart';
 

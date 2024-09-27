@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import 'package:my_windows_app/constants.dart';
-import 'package:my_windows_app/route/route_constants.dart';
+import 'package:golden_eyes/constants.dart';
+import 'package:golden_eyes/route/route_constants.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
