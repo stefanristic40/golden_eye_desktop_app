@@ -1,18 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-// import 'dart:typed_data';
-
-// import 'package:pdf/pdf.dart';
-// import 'package:pdf/widgets.dart' as pw;
-// import 'package:printing/printing.dart';
 
 import 'package:my_windows_app/constants.dart';
 import 'package:my_windows_app/route/route_constants.dart';
-import 'package:docx_template/docx_template.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:my_windows_app/screens/data/components/export_as_doc.dart';
+import 'package:my_windows_app/screens/data/components/export_as_pdf.dart';
 
 class ViewLowDownScreen extends StatefulWidget {
   final String? dataEntryId;
@@ -201,205 +194,6 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
       //     backgroundColor: Colors.red,
       //   ),
       // );
-    }
-  }
-
-  void _exportAsDoc() async {
-    final f = File("assets/docx/template.docx");
-    final docx = await DocxTemplate.fromBytes(await f.readAsBytes());
-
-    // Update image with onlien image
-    final data =
-        await http.get(Uri.parse('$backendAssetUrl/images/$thumbnail'));
-    final bytes = data.bodyBytes;
-
-    Content c = Content();
-    c
-      ..add(TextContent("name", _name.text))
-      ..add(TextContent("alias", _alias.text))
-      ..add(TextContent("father_name", _fatherName.text))
-      ..add(TextContent("mother_name", _motherName.text))
-      ..add(TextContent("religion", _religion.text))
-      ..add(TextContent("sect_sub_sect", _sectSubSect.text))
-      ..add(TextContent("caste", _caste.text))
-      ..add(TextContent("sub_caste", _subCaste.text))
-      ..add(TextContent("nationality", _nationality.text))
-      ..add(TextContent("cnic", _cnic.text))
-      ..add(TextContent("dob", _dob.text))
-      ..add(TextContent("age", _age.text))
-      ..add(TextContent("civ_edn", _civEdn.text))
-      ..add(TextContent("complexion", _complexion.text))
-      ..add(TextContent("contact_nos", _contactNos.text))
-      ..add(TextContent("facebook", _facebook.text))
-      ..add(TextContent("twitter", _twitter.text))
-      ..add(TextContent("tiktok", _tikTok.text))
-      ..add(TextContent("email", _email.text))
-      ..add(TextContent("passport_no", _passportNo.text))
-      ..add(TextContent("bank_acct_details", _bankAcctDetails.text))
-      ..add(TextContent("languages", _languages.text))
-      ..add(TextContent("temp_address", _tempAddress.text))
-      ..add(TextContent("perm_address", _permAddress.text))
-      ..add(TextContent("detail_of_visit_foregin_countries",
-          _detailOfVisitForeginCountries.text))
-      ..add(TextContent("areas_of_influence", _areasOfInfluence.text))
-      ..add(TextContent("active_since", _activeSince.text))
-      ..add(TextContent("likely_loc", _likelyLoc.text))
-      ..add(TextContent("tier", _tier.text))
-      ..add(TextContent("affl_with_ts_gp", _afflWithTsGp.text))
-      ..add(TextContent("political_affl", _politicalAffl.text))
-      ..add(TextContent("religious_affl", _religiousAffl.text))
-      ..add(TextContent("occupation", _occupation.text))
-      ..add(TextContent("source_of_income", _sourceOfIncome.text))
-      ..add(TextContent("property_details", _propertyDetails.text))
-      ..add(TextContent("marital_status", _maritalStatus.text))
-      ..add(TextContent("detail_of_children", _detailOfChildren.text))
-      ..add(TextContent("brothers", _brothers.text))
-      ..add(TextContent("sisters", _sisters.text))
-      ..add(TextContent("uncles", _uncles.text))
-      ..add(TextContent("aunts", _aunts.text))
-      ..add(TextContent("cousins", _cousins.text))
-      ..add(TextContent("father_in_law", _fatherInLaw.text))
-      ..add(TextContent("mother_in_law", _motherInLaw.text))
-      ..add(TextContent("brother_in_law", _brotherInLaw.text))
-      ..add(TextContent("sister_in_law", _sisterInLaw.text))
-      ..add(TextContent("criminal_activities", _criminalActivities.text))
-      ..add(TextContent("extortion_activities", _extortionActivities.text))
-      ..add(TextContent("attitude_towards_govt", _attitudeTowardsGovt.text))
-      ..add(TextContent("attitude_towards_state", _attitudeTowardsState.text))
-      ..add(TextContent("attitude_towards_sfs", _attitudeTowardsSFs.text))
-      ..add(TextContent("gen_habbits", _genHabbits.text))
-      ..add(TextContent("reputation_among_locals", _reputationAmongLocals.text))
-      ..add(TextContent("fir_status", _firStatus.text))
-      ..add(TextContent("gen_remarks", _genRemarks.text))
-      ..add(ImageContent('img', bytes));
-
-    final d = await docx.generate(c);
-    // final of = File('generated.docx');
-
-    // if (d != null) await of.writeAsBytes(d);
-
-    if (d != null) {
-      // Open file picker dialog to select the save location
-      String? outputPath = await FilePicker.platform.saveFile(
-        dialogTitle: 'Please select an output file:',
-        fileName: 'generated.docx',
-        type: FileType.custom,
-        allowedExtensions: ['docx'],
-      );
-
-      if (outputPath != null) {
-        final of = File(outputPath);
-        await of.writeAsBytes(d);
-      }
-    }
-  }
-
-  void _exportAsPDF() async {
-    final f = File("assets/docx/template.docx");
-    final docx = await DocxTemplate.fromBytes(await f.readAsBytes());
-
-    // Update image with onlien image
-    final data =
-        await http.get(Uri.parse('$backendAssetUrl/images/$thumbnail'));
-    final bytes = data.bodyBytes;
-
-    Content c = Content();
-    c
-      ..add(TextContent("name", _name.text))
-      ..add(TextContent("alias", _alias.text))
-      ..add(TextContent("father_name", _fatherName.text))
-      ..add(TextContent("mother_name", _motherName.text))
-      ..add(TextContent("religion", _religion.text))
-      ..add(TextContent("sect_sub_sect", _sectSubSect.text))
-      ..add(TextContent("caste", _caste.text))
-      ..add(TextContent("sub_caste", _subCaste.text))
-      ..add(TextContent("nationality", _nationality.text))
-      ..add(TextContent("cnic", _cnic.text))
-      ..add(TextContent("dob", _dob.text))
-      ..add(TextContent("age", _age.text))
-      ..add(TextContent("civ_edn", _civEdn.text))
-      ..add(TextContent("complexion", _complexion.text))
-      ..add(TextContent("contact_nos", _contactNos.text))
-      ..add(TextContent("facebook", _facebook.text))
-      ..add(TextContent("twitter", _twitter.text))
-      ..add(TextContent("tiktok", _tikTok.text))
-      ..add(TextContent("email", _email.text))
-      ..add(TextContent("passport_no", _passportNo.text))
-      ..add(TextContent("bank_acct_details", _bankAcctDetails.text))
-      ..add(TextContent("languages", _languages.text))
-      ..add(TextContent("temp_address", _tempAddress.text))
-      ..add(TextContent("perm_address", _permAddress.text))
-      ..add(TextContent("detail_of_visit_foregin_countries",
-          _detailOfVisitForeginCountries.text))
-      ..add(TextContent("areas_of_influence", _areasOfInfluence.text))
-      ..add(TextContent("active_since", _activeSince.text))
-      ..add(TextContent("likely_loc", _likelyLoc.text))
-      ..add(TextContent("tier", _tier.text))
-      ..add(TextContent("affl_with_ts_gp", _afflWithTsGp.text))
-      ..add(TextContent("political_affl", _politicalAffl.text))
-      ..add(TextContent("religious_affl", _religiousAffl.text))
-      ..add(TextContent("occupation", _occupation.text))
-      ..add(TextContent("source_of_income", _sourceOfIncome.text))
-      ..add(TextContent("property_details", _propertyDetails.text))
-      ..add(TextContent("marital_status", _maritalStatus.text))
-      ..add(TextContent("detail_of_children", _detailOfChildren.text))
-      ..add(TextContent("brothers", _brothers.text))
-      ..add(TextContent("sisters", _sisters.text))
-      ..add(TextContent("uncles", _uncles.text))
-      ..add(TextContent("aunts", _aunts.text))
-      ..add(TextContent("cousins", _cousins.text))
-      ..add(TextContent("father_in_law", _fatherInLaw.text))
-      ..add(TextContent("mother_in_law", _motherInLaw.text))
-      ..add(TextContent("brother_in_law", _brotherInLaw.text))
-      ..add(TextContent("sister_in_law", _sisterInLaw.text))
-      ..add(TextContent("criminal_activities", _criminalActivities.text))
-      ..add(TextContent("extortion_activities", _extortionActivities.text))
-      ..add(TextContent("attitude_towards_govt", _attitudeTowardsGovt.text))
-      ..add(TextContent("attitude_towards_state", _attitudeTowardsState.text))
-      ..add(TextContent("attitude_towards_sfs", _attitudeTowardsSFs.text))
-      ..add(TextContent("gen_habbits", _genHabbits.text))
-      ..add(TextContent("reputation_among_locals", _reputationAmongLocals.text))
-      ..add(TextContent("fir_status", _firStatus.text))
-      ..add(TextContent("gen_remarks", _genRemarks.text))
-      ..add(ImageContent('img', bytes));
-
-    final d = await docx.generate(c);
-
-    if (d != null) {
-      // Send the docx data to backend to convert it to PDF
-
-      final request = http.MultipartRequest(
-        'POST',
-        Uri.parse('$backendUrl/convert/docx-to-pdf'),
-      );
-
-      request.files.add(http.MultipartFile.fromBytes(
-        'docx',
-        d,
-        filename: 'generated.docx',
-      ));
-
-      final response = await request.send();
-
-      if (response.statusCode == 200) {
-        final pdfBytes = await response.stream.toBytes();
-
-        // Open file picker dialog to select the save location
-        String? outputPath = await FilePicker.platform.saveFile(
-          dialogTitle: 'Please select an output file:',
-          fileName: 'generated.pdf',
-          type: FileType.custom,
-          allowedExtensions: ['pdf'],
-        );
-
-        if (outputPath != null) {
-          final of = File(outputPath);
-          await of.writeAsBytes(pdfBytes);
-        }
-      } else {
-        final responseBody = await response.stream.bytesToString();
-        print(responseBody);
-      }
     }
   }
 
@@ -687,23 +481,133 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
                                               color: Colors.grey,
                                             ),
                                           ),
-                                    const SizedBox(height: 10),
+                                    const SizedBox(height: 30),
                                   ],
                                 ),
                               ),
                               const SizedBox(height: 50),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _exportAsDoc();
-                                },
-                                child: const Text('Export as DOC'),
+                              ExportAsPDF(
+                                name: _name.text,
+                                alias: _alias.text,
+                                fatherName: _fatherName.text,
+                                motherName: _motherName.text,
+                                religion: _religion.text,
+                                sectSubSect: _sectSubSect.text,
+                                caste: _caste.text,
+                                subCaste: _subCaste.text,
+                                nationality: _nationality.text,
+                                cnic: _cnic.text,
+                                dob: _dob.text,
+                                age: _age.text,
+                                civEdn: _civEdn.text,
+                                complexion: _complexion.text,
+                                contactNos: _contactNos.text,
+                                facebook: _facebook.text,
+                                twitter: _twitter.text,
+                                tikTok: _tikTok.text,
+                                email: _email.text,
+                                passportNo: _passportNo.text,
+                                bankAcctDetails: _bankAcctDetails.text,
+                                languages: _languages.text,
+                                tempAddress: _tempAddress.text,
+                                permAddress: _permAddress.text,
+                                detailOfVisitForeginCountries:
+                                    _detailOfVisitForeginCountries.text,
+                                areasOfInfluence: _areasOfInfluence.text,
+                                activeSince: _activeSince.text,
+                                likelyLoc: _likelyLoc.text,
+                                tier: _tier.text,
+                                afflWithTsGp: _afflWithTsGp.text,
+                                politicalAffl: _politicalAffl.text,
+                                religiousAffl: _religiousAffl.text,
+                                occupation: _occupation.text,
+                                sourceOfIncome: _sourceOfIncome.text,
+                                propertyDetails: _propertyDetails.text,
+                                maritalStatus: _maritalStatus.text,
+                                detailOfChildren: _detailOfChildren.text,
+                                brothers: _brothers.text,
+                                sisters: _sisters.text,
+                                uncles: _uncles.text,
+                                aunts: _aunts.text,
+                                cousins: _cousins.text,
+                                fatherInLaw: _fatherInLaw.text,
+                                motherInLaw: _motherInLaw.text,
+                                brotherInLaw: _brotherInLaw.text,
+                                sisterInLaw: _sisterInLaw.text,
+                                criminalActivities: _criminalActivities.text,
+                                extortionActivities: _extortionActivities.text,
+                                attitudeTowardsGovt: _attitudeTowardsGovt.text,
+                                attitudeTowardsState:
+                                    _attitudeTowardsState.text,
+                                attitudeTowardsSFs: _attitudeTowardsSFs.text,
+                                genHabbits: _genHabbits.text,
+                                reputationAmongLocals:
+                                    _reputationAmongLocals.text,
+                                firStatus: _firStatus.text,
+                                genRemarks: _genRemarks.text,
+                                thumbnail: thumbnail,
                               ),
                               const SizedBox(height: 10),
-                              ElevatedButton(
-                                onPressed: () {
-                                  _exportAsPDF();
-                                },
-                                child: const Text('Export as PDF'),
+                              ExportAsDoc(
+                                name: _name.text,
+                                alias: _alias.text,
+                                fatherName: _fatherName.text,
+                                motherName: _motherName.text,
+                                religion: _religion.text,
+                                sectSubSect: _sectSubSect.text,
+                                caste: _caste.text,
+                                subCaste: _subCaste.text,
+                                nationality: _nationality.text,
+                                cnic: _cnic.text,
+                                dob: _dob.text,
+                                age: _age.text,
+                                civEdn: _civEdn.text,
+                                complexion: _complexion.text,
+                                contactNos: _contactNos.text,
+                                facebook: _facebook.text,
+                                twitter: _twitter.text,
+                                tikTok: _tikTok.text,
+                                email: _email.text,
+                                passportNo: _passportNo.text,
+                                bankAcctDetails: _bankAcctDetails.text,
+                                languages: _languages.text,
+                                tempAddress: _tempAddress.text,
+                                permAddress: _permAddress.text,
+                                detailOfVisitForeginCountries:
+                                    _detailOfVisitForeginCountries.text,
+                                areasOfInfluence: _areasOfInfluence.text,
+                                activeSince: _activeSince.text,
+                                likelyLoc: _likelyLoc.text,
+                                tier: _tier.text,
+                                afflWithTsGp: _afflWithTsGp.text,
+                                politicalAffl: _politicalAffl.text,
+                                religiousAffl: _religiousAffl.text,
+                                occupation: _occupation.text,
+                                sourceOfIncome: _sourceOfIncome.text,
+                                propertyDetails: _propertyDetails.text,
+                                maritalStatus: _maritalStatus.text,
+                                detailOfChildren: _detailOfChildren.text,
+                                brothers: _brothers.text,
+                                sisters: _sisters.text,
+                                uncles: _uncles.text,
+                                aunts: _aunts.text,
+                                cousins: _cousins.text,
+                                fatherInLaw: _fatherInLaw.text,
+                                motherInLaw: _motherInLaw.text,
+                                brotherInLaw: _brotherInLaw.text,
+                                sisterInLaw: _sisterInLaw.text,
+                                criminalActivities: _criminalActivities.text,
+                                extortionActivities: _extortionActivities.text,
+                                attitudeTowardsGovt: _attitudeTowardsGovt.text,
+                                attitudeTowardsState:
+                                    _attitudeTowardsState.text,
+                                attitudeTowardsSFs: _attitudeTowardsSFs.text,
+                                genHabbits: _genHabbits.text,
+                                reputationAmongLocals:
+                                    _reputationAmongLocals.text,
+                                firStatus: _firStatus.text,
+                                genRemarks: _genRemarks.text,
+                                thumbnail: thumbnail,
                               ),
                               const SizedBox(height: 10),
                               ElevatedButton(
@@ -936,25 +840,6 @@ class ViewLowDownScreenState extends State<ViewLowDownScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildRow({required String label, required Widget child}) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 200,
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        Expanded(child: child),
-      ],
     );
   }
 

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:path/path.dart' as path;
-import 'package:image_picker/image_picker.dart';
+import 'package:my_windows_app/screens/data/components/export_as_doc.dart';
+import 'package:my_windows_app/screens/data/components/export_as_pdf.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart';
 
 import 'package:my_windows_app/constants.dart';
 import 'package:my_windows_app/route/route_constants.dart';
@@ -19,92 +17,109 @@ class AddLowDownScreen extends StatefulWidget {
 }
 
 class AddLowDownScreenState extends State<AddLowDownScreen> {
-  File? thumbnail;
-
-  String? dataEntryId = '';
+  String? thumbnail;
 
   // Name, Alias, Father Name, Mother Name, Religion, Sect/Sub Sect, Caste, SUb Caste, Nationality, CNIC, Date of Birth, Age, Civ Edn, Complexion, Contact Nos
-  TextEditingController _name = TextEditingController();
-  TextEditingController _alias = TextEditingController();
-  TextEditingController _fatherName = TextEditingController();
-  TextEditingController _motherName = TextEditingController();
-  TextEditingController _religion = TextEditingController();
-  TextEditingController _sectSubSect = TextEditingController();
-  TextEditingController _caste = TextEditingController();
-  TextEditingController _subCaste = TextEditingController();
-  TextEditingController _nationality = TextEditingController();
-  TextEditingController _cnic = TextEditingController();
-  TextEditingController _dob = TextEditingController();
-  TextEditingController _age = TextEditingController();
-  TextEditingController _civEdn = TextEditingController();
-  TextEditingController _complexion = TextEditingController();
-  TextEditingController _contactNos = TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _alias = TextEditingController();
+  final TextEditingController _fatherName = TextEditingController();
+  final TextEditingController _motherName = TextEditingController();
+  final TextEditingController _religion = TextEditingController();
+  final TextEditingController _sectSubSect = TextEditingController();
+  final TextEditingController _caste = TextEditingController();
+  final TextEditingController _subCaste = TextEditingController();
+  final TextEditingController _nationality = TextEditingController();
+  final TextEditingController _cnic = TextEditingController();
+  final TextEditingController _dob = TextEditingController();
+  final TextEditingController _age = TextEditingController();
+  final TextEditingController _civEdn = TextEditingController();
+  final TextEditingController _complexion = TextEditingController();
+  final TextEditingController _contactNos = TextEditingController();
 
   // Social Media Details
-  TextEditingController _facebook = TextEditingController();
-  TextEditingController _twitter = TextEditingController();
-  TextEditingController _tikTok = TextEditingController();
-  TextEditingController _email = TextEditingController();
+  final TextEditingController _facebook = TextEditingController();
+  final TextEditingController _twitter = TextEditingController();
+  final TextEditingController _tikTok = TextEditingController();
+  final TextEditingController _email = TextEditingController();
 
   // Text Inputs: Passport No, Bank Acct Details, Languages, Temp Address, Perm Address, Detail of Visit foregin countries, Areas of Influence, Active Since, Likely Loc, Tier, Affl with Ts Gp
-  TextEditingController _passportNo = TextEditingController();
-  TextEditingController _bankAcctDetails = TextEditingController();
-  TextEditingController _languages = TextEditingController();
-  TextEditingController _tempAddress = TextEditingController();
-  TextEditingController _permAddress = TextEditingController();
-  TextEditingController _detailOfVisitForeginCountries =
+  final TextEditingController _passportNo = TextEditingController();
+  final TextEditingController _bankAcctDetails = TextEditingController();
+  final TextEditingController _languages = TextEditingController();
+  final TextEditingController _tempAddress = TextEditingController();
+  final TextEditingController _permAddress = TextEditingController();
+  final TextEditingController _detailOfVisitForeginCountries =
       TextEditingController();
-  TextEditingController _areasOfInfluence = TextEditingController();
-  TextEditingController _activeSince = TextEditingController();
-  TextEditingController _likelyLoc = TextEditingController();
-  TextEditingController _tier = TextEditingController();
-  TextEditingController _afflWithTsGp = TextEditingController();
+  final TextEditingController _areasOfInfluence = TextEditingController();
+  final TextEditingController _activeSince = TextEditingController();
+  final TextEditingController _likelyLoc = TextEditingController();
+  final TextEditingController _tier = TextEditingController();
+  final TextEditingController _afflWithTsGp = TextEditingController();
 
   // Text Inputs: Political Affl, Religious Affl, Occupation, Mother Name, Suurce of Income, Property Details, Marital Status, Detail of Children
-  TextEditingController _politicalAffl = TextEditingController();
-  TextEditingController _religiousAffl = TextEditingController();
-  TextEditingController _occupation = TextEditingController();
-  TextEditingController _sourceOfIncome = TextEditingController();
-  TextEditingController _propertyDetails = TextEditingController();
-  TextEditingController _maritalStatus = TextEditingController();
-  TextEditingController _detailOfChildren = TextEditingController();
+  final TextEditingController _politicalAffl = TextEditingController();
+  final TextEditingController _religiousAffl = TextEditingController();
+  final TextEditingController _occupation = TextEditingController();
+  final TextEditingController _sourceOfIncome = TextEditingController();
+  final TextEditingController _propertyDetails = TextEditingController();
+  final TextEditingController _maritalStatus = TextEditingController();
+  final TextEditingController _detailOfChildren = TextEditingController();
 
   // Label Family Detail (Own) i.2 Name, Relation, Age, Profession, Address
-  TextEditingController _brothers = TextEditingController();
-  TextEditingController _sisters = TextEditingController();
-  TextEditingController _uncles = TextEditingController();
-  TextEditingController _aunts = TextEditingController();
-  TextEditingController _cousins = TextEditingController();
+  final TextEditingController _brothers = TextEditingController();
+  final TextEditingController _sisters = TextEditingController();
+  final TextEditingController _uncles = TextEditingController();
+  final TextEditingController _aunts = TextEditingController();
+  final TextEditingController _cousins = TextEditingController();
 
   // Label: In Laws Detail (i.2 Name, Relation, Age, Profession, Address)
-  TextEditingController _fatherInLaw = TextEditingController();
-  TextEditingController _motherInLaw = TextEditingController();
-  TextEditingController _brotherInLaw = TextEditingController();
-  TextEditingController _sisterInLaw = TextEditingController();
+  final TextEditingController _fatherInLaw = TextEditingController();
+  final TextEditingController _motherInLaw = TextEditingController();
+  final TextEditingController _brotherInLaw = TextEditingController();
+  final TextEditingController _sisterInLaw = TextEditingController();
 
   // Text Inputs: Criminal Activities, Extortion Activities, Attitude towards Govt, Attitude towards State, Attitude towards SFs, Gen Habbits, Reputation among locals, FIR Status
-  TextEditingController _criminalActivities = TextEditingController();
-  TextEditingController _extortionActivities = TextEditingController();
-  TextEditingController _attitudeTowardsGovt = TextEditingController();
-  TextEditingController _attitudeTowardsState = TextEditingController();
-  TextEditingController _attitudeTowardsSFs = TextEditingController();
-  TextEditingController _genHabbits = TextEditingController();
-  TextEditingController _reputationAmongLocals = TextEditingController();
-  TextEditingController _firStatus = TextEditingController();
+  final TextEditingController _criminalActivities = TextEditingController();
+  final TextEditingController _extortionActivities = TextEditingController();
+  final TextEditingController _attitudeTowardsGovt = TextEditingController();
+  final TextEditingController _attitudeTowardsState = TextEditingController();
+  final TextEditingController _attitudeTowardsSFs = TextEditingController();
+  final TextEditingController _genHabbits = TextEditingController();
+  final TextEditingController _reputationAmongLocals = TextEditingController();
+  final TextEditingController _firStatus = TextEditingController();
 
   // Gen Remarks
-  TextEditingController _genRemarks = TextEditingController();
+  final TextEditingController _genRemarks = TextEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    dataEntryId = widget.dataEntryId;
+    _fetchEntryData();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  void _fetchEntryData() async {
+    final response =
+        await http.get(Uri.parse('$backendUrl/entry/${widget.dataEntryId}'));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> body =
+          json.decode(response.body) as Map<String, dynamic>;
+
+      setState(() {
+        if (body['thumbnail'] != null) {
+          thumbnail = body['thumbnail'] as String;
+        }
+      });
+    } else {
+      final responseBody = response.body;
+      print(responseBody);
+    }
   }
 
   void _saveData() async {
@@ -113,7 +128,7 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
       Uri.parse('$backendUrl/low'),
     );
 
-    request.fields['entry_id'] = dataEntryId!;
+    request.fields['entry_id'] = widget.dataEntryId!;
 
     request.fields['name'] = _name.text;
     request.fields['alias'] = _alias.text;
@@ -178,13 +193,6 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
     request.fields['fir_status'] = _firStatus.text;
 
     request.fields['gen_remarks'] = _genRemarks.text;
-
-    if (thumbnail != null) {
-      request.files.add(await http.MultipartFile.fromPath(
-        'thumbnail',
-        thumbnail!.path,
-      ));
-    }
 
     final response = await request.send();
 
@@ -284,18 +292,6 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    double textWidth = 200;
-
-    Future<void> pickImage() async {
-      final ImagePicker picker = ImagePicker();
-      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-      if (image != null) {
-        setState(() {
-          thumbnail = File(image.path);
-        });
-      }
-    }
 
     return Scaffold(
       body: SafeArea(
@@ -561,8 +557,8 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
                                     const SizedBox(height: 10),
                                     // Thumbnail Image
                                     thumbnail != null
-                                        ? Image.file(
-                                            thumbnail!,
+                                        ? Image.network(
+                                            '$backendAssetUrl/images/$thumbnail',
                                             width: 200,
                                             height: 200,
                                             fit: BoxFit.cover,
@@ -576,12 +572,7 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
                                               color: Colors.grey,
                                             ),
                                           ),
-                                    const SizedBox(height: 10),
-                                    // Pick Image Button
-                                    ElevatedButton(
-                                      onPressed: pickImage,
-                                      child: const Text('Pick Image'),
-                                    ),
+                                    const SizedBox(height: 30),
                                   ],
                                 ),
                               ),
@@ -593,18 +584,128 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
                                 child: const Text('Save Data'),
                               ),
                               const SizedBox(height: 10),
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Implement file picker logic here
-                                },
-                                child: const Text('Export as DOC'),
+                              ExportAsDoc(
+                                name: _name.text,
+                                alias: _alias.text,
+                                fatherName: _fatherName.text,
+                                motherName: _motherName.text,
+                                religion: _religion.text,
+                                sectSubSect: _sectSubSect.text,
+                                caste: _caste.text,
+                                subCaste: _subCaste.text,
+                                nationality: _nationality.text,
+                                cnic: _cnic.text,
+                                dob: _dob.text,
+                                age: _age.text,
+                                civEdn: _civEdn.text,
+                                complexion: _complexion.text,
+                                contactNos: _contactNos.text,
+                                facebook: _facebook.text,
+                                twitter: _twitter.text,
+                                tikTok: _tikTok.text,
+                                email: _email.text,
+                                passportNo: _passportNo.text,
+                                bankAcctDetails: _bankAcctDetails.text,
+                                languages: _languages.text,
+                                tempAddress: _tempAddress.text,
+                                permAddress: _permAddress.text,
+                                detailOfVisitForeginCountries:
+                                    _detailOfVisitForeginCountries.text,
+                                areasOfInfluence: _areasOfInfluence.text,
+                                activeSince: _activeSince.text,
+                                likelyLoc: _likelyLoc.text,
+                                tier: _tier.text,
+                                afflWithTsGp: _afflWithTsGp.text,
+                                politicalAffl: _politicalAffl.text,
+                                religiousAffl: _religiousAffl.text,
+                                occupation: _occupation.text,
+                                sourceOfIncome: _sourceOfIncome.text,
+                                propertyDetails: _propertyDetails.text,
+                                maritalStatus: _maritalStatus.text,
+                                detailOfChildren: _detailOfChildren.text,
+                                brothers: _brothers.text,
+                                sisters: _sisters.text,
+                                uncles: _uncles.text,
+                                aunts: _aunts.text,
+                                cousins: _cousins.text,
+                                fatherInLaw: _fatherInLaw.text,
+                                motherInLaw: _motherInLaw.text,
+                                brotherInLaw: _brotherInLaw.text,
+                                sisterInLaw: _sisterInLaw.text,
+                                criminalActivities: _criminalActivities.text,
+                                extortionActivities: _extortionActivities.text,
+                                attitudeTowardsGovt: _attitudeTowardsGovt.text,
+                                attitudeTowardsState:
+                                    _attitudeTowardsState.text,
+                                attitudeTowardsSFs: _attitudeTowardsSFs.text,
+                                genHabbits: _genHabbits.text,
+                                reputationAmongLocals:
+                                    _reputationAmongLocals.text,
+                                firStatus: _firStatus.text,
+                                genRemarks: _genRemarks.text,
+                                thumbnail: thumbnail,
                               ),
                               const SizedBox(height: 10),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, mainScreenRoute);
-                                },
-                                child: const Text('Export as PDF'),
+                              ExportAsPDF(
+                                name: _name.text,
+                                alias: _alias.text,
+                                fatherName: _fatherName.text,
+                                motherName: _motherName.text,
+                                religion: _religion.text,
+                                sectSubSect: _sectSubSect.text,
+                                caste: _caste.text,
+                                subCaste: _subCaste.text,
+                                nationality: _nationality.text,
+                                cnic: _cnic.text,
+                                dob: _dob.text,
+                                age: _age.text,
+                                civEdn: _civEdn.text,
+                                complexion: _complexion.text,
+                                contactNos: _contactNos.text,
+                                facebook: _facebook.text,
+                                twitter: _twitter.text,
+                                tikTok: _tikTok.text,
+                                email: _email.text,
+                                passportNo: _passportNo.text,
+                                bankAcctDetails: _bankAcctDetails.text,
+                                languages: _languages.text,
+                                tempAddress: _tempAddress.text,
+                                permAddress: _permAddress.text,
+                                detailOfVisitForeginCountries:
+                                    _detailOfVisitForeginCountries.text,
+                                areasOfInfluence: _areasOfInfluence.text,
+                                activeSince: _activeSince.text,
+                                likelyLoc: _likelyLoc.text,
+                                tier: _tier.text,
+                                afflWithTsGp: _afflWithTsGp.text,
+                                politicalAffl: _politicalAffl.text,
+                                religiousAffl: _religiousAffl.text,
+                                occupation: _occupation.text,
+                                sourceOfIncome: _sourceOfIncome.text,
+                                propertyDetails: _propertyDetails.text,
+                                maritalStatus: _maritalStatus.text,
+                                detailOfChildren: _detailOfChildren.text,
+                                brothers: _brothers.text,
+                                sisters: _sisters.text,
+                                uncles: _uncles.text,
+                                aunts: _aunts.text,
+                                cousins: _cousins.text,
+                                fatherInLaw: _fatherInLaw.text,
+                                motherInLaw: _motherInLaw.text,
+                                brotherInLaw: _brotherInLaw.text,
+                                sisterInLaw: _sisterInLaw.text,
+                                criminalActivities: _criminalActivities.text,
+                                extortionActivities: _extortionActivities.text,
+                                attitudeTowardsGovt: _attitudeTowardsGovt.text,
+                                attitudeTowardsState:
+                                    _attitudeTowardsState.text,
+                                attitudeTowardsSFs: _attitudeTowardsSFs.text,
+                                genHabbits: _genHabbits.text,
+                                reputationAmongLocals:
+                                    _reputationAmongLocals.text,
+                                firStatus: _firStatus.text,
+                                genRemarks: _genRemarks.text,
+                                thumbnail: thumbnail,
                               ),
                             ],
                           )),
