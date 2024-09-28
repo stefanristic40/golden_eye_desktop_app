@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:process_run/process_run.dart';
-
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -10,6 +8,9 @@ import 'package:intl/intl.dart';
 
 import 'package:golden_eyes/constants.dart';
 import 'package:golden_eyes/route/route_constants.dart';
+
+import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // Function to parse TimeOfDay from string
 TimeOfDay parseTimeOfDay(String tod) {
@@ -829,26 +830,20 @@ class SearchScreenState extends State<SearchScreen> {
                                           child: Center(
                                             child: ElevatedButton(
                                               onPressed: () async {
-                                                // // Open Google Earth with lat, long
-                                                // final String url =
-                                                //     'https://earth.google.com/web/search/${data['latitude']},${data['longitude']}';
-                                                // // Only for Windows
-                                                // Process.start('cmd',
-                                                //     ['/c', 'start', url]);
-                                                // Replace with the actual path to Google Earth's executable
-                                                // C:\Program Files\Google\Google Earth Pro\client
-                                                String googleEarthPath =
-                                                    r'C:\Program Files\Google\Google Earth Pro\client\googleearth.exe';
+                                                final url =
+                                                    '$backendAssetUrl/kmz/${data['goe']}';
+// Download the file and save it to the tempoary space
+                                                final response = await http
+                                                    .get(Uri.parse(url));
+                                                final tempDir =
+                                                    await getTemporaryDirectory();
+                                                final file = File(
+                                                    '${tempDir.path}/goe.kmz');
+                                                await file.writeAsBytes(
+                                                    response.bodyBytes);
 
-                                                // Construct the command with the latitude and longitude
-                                                List<String> arguments = [
-                                                  '--args',
-                                                  '-v',
-                                                  'flyto=latlng:${data['latitude']},${data['longitude']}'
-                                                ];
-
-                                                await runExecutableArguments(
-                                                    googleEarthPath, arguments);
+                                                // Open the file
+                                                await launch(file.path);
                                               },
                                               child: const Text('GOE'),
                                             ),
