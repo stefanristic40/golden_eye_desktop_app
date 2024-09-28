@@ -1,6 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'package:process_run/process_run.dart';
+
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -827,13 +828,27 @@ class SearchScreenState extends State<SearchScreen> {
                                               TableCellVerticalAlignment.middle,
                                           child: Center(
                                             child: ElevatedButton(
-                                              onPressed: () {
-                                                // Open Google Earth with lat, long
-                                                final String url =
-                                                    'https://earth.google.com/web/search/${data['latitude']},${data['longitude']}';
-                                                // Only for Windows
-                                                Process.start('cmd',
-                                                    ['/c', 'start', url]);
+                                              onPressed: () async {
+                                                // // Open Google Earth with lat, long
+                                                // final String url =
+                                                //     'https://earth.google.com/web/search/${data['latitude']},${data['longitude']}';
+                                                // // Only for Windows
+                                                // Process.start('cmd',
+                                                //     ['/c', 'start', url]);
+                                                // Replace with the actual path to Google Earth's executable
+                                                // C:\Program Files\Google\Google Earth Pro\client
+                                                String googleEarthPath =
+                                                    r'C:\Program Files\Google\Google Earth Pro\client\googleearth.exe';
+
+                                                // Construct the command with the latitude and longitude
+                                                List<String> arguments = [
+                                                  '--args',
+                                                  '-v',
+                                                  'flyto=latlng:${data['latitude']},${data['longitude']}'
+                                                ];
+
+                                                await runExecutableArguments(
+                                                    googleEarthPath, arguments);
                                               },
                                               child: const Text('GOE'),
                                             ),

@@ -116,6 +116,8 @@ class AddLowDownScreenState extends State<AddLowDownScreen> {
           thumbnail = body['thumbnail'] as String;
         }
       });
+
+      _name.text = body['name'] as String;
     } else {
       final responseBody = response.body;
       print(responseBody);

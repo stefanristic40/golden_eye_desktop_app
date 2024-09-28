@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'dart:io';
@@ -25,6 +26,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
   String _casValue = 'Own';
   String _watchListValue = 'Yes';
   File? thumbnail;
+  File? goeFile;
 
   String? _dataEntryId;
 
@@ -98,6 +100,13 @@ class DataEntryScreenState extends State<DataEntryScreen> {
         ));
       }
 
+      if (goeFile != null) {
+        request.files.add(await http.MultipartFile.fromPath(
+          'goe',
+          goeFile!.path,
+        ));
+      }
+
       final response = await request.send();
 
       if (response.statusCode == 200) {
@@ -118,6 +127,7 @@ class DataEntryScreenState extends State<DataEntryScreen> {
           _watchListValue = 'Yes';
           _selectedIncidentTypes.clear();
           thumbnail = null;
+          goeFile = null;
 
           _dataEntryId = json.decode(responseBody)['_id'];
         });
@@ -164,6 +174,21 @@ class DataEntryScreenState extends State<DataEntryScreen> {
       if (image != null) {
         setState(() {
           thumbnail = File(image.path);
+        });
+      }
+    }
+
+    // Pick kmz file from device
+    Future<void> pickKMZFile() async {
+      // import file
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['kmz'],
+      );
+
+      if (result != null) {
+        setState(() {
+          goeFile = File(result.files.single.path!);
         });
       }
     }
@@ -465,6 +490,38 @@ class DataEntryScreenState extends State<DataEntryScreen> {
                                   width: 400,
                                   child: Column(
                                     children: [
+                                      if (goeFile != null) ...[
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              ' ${path.basename(goeFile!.path)}',
+                                              style: const TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.black),
+                                            ),
+                                            // Delete icon
+                                            IconButton(
+                                              icon: const Icon(Icons.delete,
+                                                  size: 20),
+                                              onPressed: () {
+                                                setState(() {
+                                                  goeFile = null;
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 5),
+                                      ],
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          pickKMZFile();
+                                        },
+                                        child: const Text('Import GOE .kmz'),
+                                      ),
+                                      const SizedBox(height: 10),
                                       ElevatedButton(
                                         onPressed: () {
                                           _saveData();
