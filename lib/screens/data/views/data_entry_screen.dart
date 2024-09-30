@@ -118,7 +118,6 @@ class DataEntryScreenState extends State<DataEntryScreen> {
         );
 
         final responseBody = await response.stream.bytesToString();
-        print(responseBody);
 
         // Clear all the fields
         setState(() {

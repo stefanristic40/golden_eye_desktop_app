@@ -12,6 +12,8 @@ import 'package:golden_eyes/route/route_constants.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:path/path.dart' as path;
+
 // Function to parse TimeOfDay from string
 TimeOfDay parseTimeOfDay(String tod) {
   final time = tod.substring(10, 15); // Extract "07:59"
@@ -831,19 +833,44 @@ class SearchScreenState extends State<SearchScreen> {
                                             child: ElevatedButton(
                                               onPressed: () async {
                                                 final url =
-                                                    '$backendAssetUrl/kmz/${data['goe']}';
-// Download the file and save it to the tempoary space
-                                                final response = await http
-                                                    .get(Uri.parse(url));
-                                                final tempDir =
-                                                    await getTemporaryDirectory();
-                                                final file = File(
-                                                    '${tempDir.path}/goe.kmz');
-                                                await file.writeAsBytes(
-                                                    response.bodyBytes);
+                                                    '$backendAssetUrl/goes/${data['goe']}';
 
-                                                // Open the file
-                                                await launch(file.path);
+                                                try {
+                                                  final response =
+                                                      await http.Client().send(
+                                                          http.Request('GET',
+                                                              Uri.parse(url)));
+
+                                                  if (response.statusCode ==
+                                                      200) {
+                                                    final temporaryDirectory =
+                                                        await getTemporaryDirectory();
+
+                                                    final downloadsDirPath =
+                                                        temporaryDirectory.path;
+                                                    final filePath = path.join(
+                                                        downloadsDirPath,
+                                                        "${data['goe']}");
+                                                    final file = File(filePath);
+
+                                                    // Open a file for writing
+                                                    final fileSink =
+                                                        file.openWrite();
+
+                                                    // Listen to the response stream and write to the file
+                                                    await response.stream
+                                                        .pipe(fileSink);
+
+                                                    // Open the file
+                                                    await launch(file.path);
+                                                  } else {
+                                                    // print(
+                                                    //     'Failed to download file. Status code: ${response.statusCode}');
+                                                  }
+                                                } catch (e) {
+                                                  // print(
+                                                  //     'Error downloading file: $e');
+                                                }
                                               },
                                               child: const Text('GOE'),
                                             ),
