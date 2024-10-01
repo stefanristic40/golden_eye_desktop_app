@@ -170,10 +170,23 @@ class DataEntryScreenState extends State<DataEntryScreen> {
       final ImagePicker picker = ImagePicker();
       final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
+      // Check file format. If it is not jpeg, jpg or png, show error message
       if (image != null) {
-        setState(() {
-          thumbnail = File(image.path);
-        });
+        final List<String> allowedFormats = ['jpeg', 'jpg', 'png'];
+        final String format = image.path.split('.').last;
+        if (!allowedFormats.contains(format)) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Only jpeg, jpg and png formats are allowed'),
+              backgroundColor: Colors.red,
+            ),
+          );
+          return;
+        } else {
+          setState(() {
+            thumbnail = File(image.path);
+          });
+        }
       }
     }
 

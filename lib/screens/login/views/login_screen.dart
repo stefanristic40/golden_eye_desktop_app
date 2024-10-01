@@ -3,6 +3,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:golden_eyes/constants.dart';
 import 'package:golden_eyes/route/route_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,15 +18,15 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
-  // username and password
-  String? _username;
-  String? _password;
+  TextEditingController _username = TextEditingController();
+  TextEditingController _password = TextEditingController();
   // remember me
   bool _rememberMe = false;
 
   @override
   void initState() {
     super.initState();
+    _loadSavedCredentials();
   }
 
   @override
@@ -33,12 +34,35 @@ class LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  void _loadSavedCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if (prefs.getString('username') != null) {
+      setState(() {
+        _username.text = prefs.getString('username')!;
+      });
+    }
+
+    if (prefs.getString('password') != null) {
+      setState(() {
+        _password.text = prefs.getString('password')!;
+      });
+    }
+
+    if (prefs.getString('password') != null &&
+        prefs.getString('username') != null) {
+      setState(() {
+        _rememberMe = true;
+      });
+    }
+  }
+
   void _onLogin() async {
     if (_formKey.currentState!.validate()) {
       // call backend api
       final requestBody = {
-        "username": _username,
-        "password": _password,
+        "username": _username.text,
+        "password": _password.text,
       };
 
       // Convert the request body to a JSON string
@@ -60,6 +84,16 @@ class LoginScreenState extends State<LoginScreen> {
             backgroundColor: Colors.green,
           ),
         );
+
+        if (_rememberMe) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('username', _username.text);
+          prefs.setString('password', _password.text);
+        } else {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.remove('username');
+          prefs.remove('password');
+        }
 
         // Navigate to HomeScreen
         Navigator.pushNamed(context, mainScreenRoute);
@@ -135,14 +169,10 @@ class LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           children: [
                             TextFormField(
+                              controller: _username,
                               decoration: const InputDecoration(
                                 labelText: "Username",
                               ),
-                              onChanged: (value) {
-                                setState(() {
-                                  _username = value;
-                                });
-                              },
                               validator: MultiValidator([
                                 RequiredValidator(
                                     errorText: "Username is required"),
@@ -150,15 +180,11 @@ class LoginScreenState extends State<LoginScreen> {
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
+                              controller: _password,
                               decoration: const InputDecoration(
                                 labelText: "Password",
                               ),
                               obscureText: true,
-                              onChanged: (value) {
-                                setState(() {
-                                  _password = value;
-                                });
-                              },
                               validator: RequiredValidator(
                                       errorText: "Password is required")
                                   .call,
