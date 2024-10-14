@@ -272,6 +272,7 @@ class SearchScreenState extends State<SearchScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
+                        // width: width < 1200 ? 430 : 530,
                         child: Column(
                           children: [
                             const Align(
@@ -444,21 +445,20 @@ class SearchScreenState extends State<SearchScreen> {
                               ),
                             ),
                             const SizedBox(width: 20),
-                            Container(
+                            SizedBox(
                               height: 400,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black,
-                                  width: 2,
-                                ),
-                              ),
+                              // decoration: BoxDecoration(
+                              //   border: Border.all(
+                              //     color: Colors.black,
+                              //     width: 2,
+                              //   ),
+                              // ),
                               child: selectedData["thumbnail"] != null
                                   ? Image.network(
                                       '$backendAssetUrl/images/${selectedData["thumbnail"]}',
                                       width: width < 1200 ? 300 : 400,
                                       height: width < 1200 ? 300 : 400,
-                                      fit: BoxFit.cover,
-                                    )
+                                      fit: BoxFit.contain)
                                   : SizedBox(
                                       width: width < 1200 ? 300 : 400,
                                       height: width < 1200 ? 300 : 400,
